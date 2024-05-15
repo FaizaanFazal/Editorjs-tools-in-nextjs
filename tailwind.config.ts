@@ -15,6 +15,10 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require("@tailwindcss/typography")({
+      className: "editorTypographyStyling",
+    }),
+  ],
 };
 export default config;
