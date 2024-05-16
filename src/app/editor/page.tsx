@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useState, FC } from 'react';
 import EditorJS, { EditorConfig, OutputData, ToolConstructable } from '@editorjs/editorjs';
 import Paragraph from 'editorjs-paragraph-with-alignment';
 // import Header from 'editorjs-header-with-alignment';
-import Quote from '@editorjs/quote';
+// import Quote from '@editorjs/quote';
 import Warning from '@editorjs/warning';
 import Delimiter from '@editorjs/delimiter';
 import Alert from 'editorjs-alert';
@@ -26,6 +26,7 @@ import CustomList from '../../components/customList';
 import { LayoutBlockTool, LayoutBlockToolConfig } from 'editorjs-layout';
 import SimpleImage from '@/module/editor/simple-image/simple_image';
 import Header from '@/module/editor/header/header';
+import { Quote } from '@/module/editor/quote/quote';
 
 interface CustomEditorProps {
     editorDataOnChange: (_newProp: JSON | null) => void;
@@ -98,7 +99,7 @@ const CustomEditor: FC<CustomEditorProps> = () => {
                             tunes: ['textVariant']
                         },
                         quote: {
-                            class: Quote,
+                            class: Quote as unknown as ToolConstructable,
                             inlineToolbar: true,
                             shortcut: 'CMD+SHIFT+O',
                             config: {
@@ -248,7 +249,7 @@ const CustomEditor: FC<CustomEditorProps> = () => {
                         tunes: ['textVariant']
                     },
                     quote: {
-                        class: Quote,
+                        class: Quote as unknown as ToolConstructable,
                         inlineToolbar: true,
                         shortcut: 'CMD+SHIFT+O',
                         config: {

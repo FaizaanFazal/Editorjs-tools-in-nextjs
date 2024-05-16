@@ -1,5 +1,5 @@
 import "./index.css";
-import { BlockTool, PasteEvent } from '@editorjs/editorjs';
+import { BlockTool } from '@editorjs/editorjs';
 
 interface HeaderData {
     alignment: any;
