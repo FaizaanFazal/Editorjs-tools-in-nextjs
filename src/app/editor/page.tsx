@@ -2,7 +2,7 @@
 import React, { useRef, useEffect, useState, FC } from 'react';
 import EditorJS, { EditorConfig, OutputData, ToolConstructable } from '@editorjs/editorjs';
 import Paragraph from 'editorjs-paragraph-with-alignment';
-import Header from 'editorjs-header-with-alignment';
+// import Header from 'editorjs-header-with-alignment';
 import Quote from '@editorjs/quote';
 import Warning from '@editorjs/warning';
 import Delimiter from '@editorjs/delimiter';
@@ -25,6 +25,7 @@ import Undo from 'editorjs-undo';
 import CustomList from '../../components/customList';
 import { LayoutBlockTool, LayoutBlockToolConfig } from 'editorjs-layout';
 import SimpleImage from '@/module/editor/simple-image/simple_image';
+import Header from '@/module/editor/header/header';
 
 interface CustomEditorProps {
     editorDataOnChange: (_newProp: JSON | null) => void;
