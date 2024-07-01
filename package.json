@@ -11,6 +11,7 @@
   "dependencies": {
     "@codexteam/icons": "^0.3.0",
     "@editorjs/editorjs": "^2.29.1",
+    "@editorjs/raw": "^2.5.0",
     "@sotaproject/strikethrough": "^1.0.1",
     "@tailwindcss/typography": "^0.5.13",
     "editorjs-alert": "^1.1.3",

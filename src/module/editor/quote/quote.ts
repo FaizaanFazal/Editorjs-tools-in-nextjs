@@ -37,6 +37,7 @@ class Quote implements BlockTool {
     private captionPlaceholder: string;
     private _CSS: { block: any; settingsButton: any; settingsButtonActive: any; wrapper: string; alignment: { left: string; center: string; right: string; justify: string; }; };
     private currentAlignmentClass: string | null = null;
+    private _element: HTMLElement;
 
     static get isReadOnlySupported(): boolean {
         return true;
@@ -134,7 +135,7 @@ class Quote implements BlockTool {
                 config.defaultAlignment ||
                 DEFAULT_ALIGNMENT,
         };
-
+        
         this._CSS = {
             block: this.api.styles.block,
             settingsButton: this.api.styles.settingsButton,
@@ -147,12 +148,13 @@ class Quote implements BlockTool {
                 justify: "ce-header--justify",
             },
         };
+        this._element = this.getTag();
     }
 
-    render(): HTMLElement {
+    getTag(): HTMLElement {
         const container = this._make('blockquote', [this.CSS.baseClass, this.CSS.wrapper]);
         container.classList.add(this._CSS.alignment[this.data.alignment]);
-        this.currentAlignmentClass = this._CSS.alignment[this.data.alignment];
+        this.currentAlignmentClass =this._CSS.alignment[this.data.alignment];
         const quote = this._make('div', [this.CSS.input, this.CSS.text], {
             contentEditable: !this.readOnly,
             innerHTML: this.data.text,
@@ -172,6 +174,9 @@ class Quote implements BlockTool {
         container.appendChild(caption);
 
         return container as HTMLElement;
+    }
+    render() {
+        return this._element;
     }
 
 
@@ -201,7 +206,7 @@ class Quote implements BlockTool {
         const capitalize = (str: string): string => {
             return str[0].toUpperCase() + str.substr(1);
         };
-
+       
         return this.settings.map(item => ({
             icon: item.icon,
             isActive: this.data.alignment === item.name,
@@ -210,40 +215,27 @@ class Quote implements BlockTool {
             onActivate: () => this._toggleTune(item.name as 'center' | 'left' | 'right'), // Ensure item.name is correctly typed
         }));
     };
-
-    _toggleAlignmentClass(alignment: 'center' | 'left' | 'right') {
-        const container = document.querySelector('.cdx-block');
-        if (!container) return;
-        const newAlignmentClass = this._CSS.alignment[alignment];
-        if (this.currentAlignmentClass) {
-            container.classList.remove(this.currentAlignmentClass);
-        }
-        if (newAlignmentClass) {
-            container.classList.add(newAlignmentClass);
-            this.currentAlignmentClass = newAlignmentClass;
-        }
-
-    }
-
+    
+    
     _toggleTune(tune: 'center' | 'left' | 'right') {
         console.log(tune)
         this._toggleAlignmentClass(tune);
     }
-
+    
     _make(tagName: string, classNames: string[] | string = [], attributes: object = {}): Element {
         const el = document.createElement(tagName);
-
+    
         if (Array.isArray(classNames)) {
             el.classList.add(...classNames);
         } else if (classNames) {
             el.classList.add(classNames);
         }
-
+    
         for (const attrName in attributes) {
             if (Object.prototype.hasOwnProperty.call(attributes, attrName)) {
-                (el as any)[attrName] = (attributes as any)[attrName];
+              (el as any)[attrName] = (attributes as any)[attrName];
             }
-        }
+          }
         return el;
     }
 }

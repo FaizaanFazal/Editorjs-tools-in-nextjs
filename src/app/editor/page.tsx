@@ -21,6 +21,7 @@ import Strikethrough from '@sotaproject/strikethrough';
 import TextVariantTune from '@editorjs/text-variant-tune';
 import DragDrop from 'editorjs-drag-drop';
 import Undo from 'editorjs-undo';
+import RawTool from '@editorjs/raw';
 
 import CustomList from '../../components/customList';
 import { LayoutBlockTool, LayoutBlockToolConfig } from 'editorjs-layout';
@@ -82,6 +83,7 @@ const CustomEditor: FC<CustomEditorProps> = () => {
                                 placeholder: 'Paste image URL'
                             }
                         },
+                        raw: RawTool,
                         header: {
                             class: Header as unknown as ToolConstructable,
                             shortcut: 'CMD+SHIFT+H',
@@ -232,6 +234,7 @@ const CustomEditor: FC<CustomEditorProps> = () => {
                             placeholder: 'Paste image URL'
                         }
                     },
+                    raw: RawTool,
                     header: {
                         class: Header as unknown as ToolConstructable,
                         shortcut: 'CMD+SHIFT+H',
