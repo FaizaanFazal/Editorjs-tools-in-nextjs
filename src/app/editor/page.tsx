@@ -30,6 +30,7 @@ import Header from '@/module/editor/header/header';
 import { Quote } from '@/module/editor/quote/quote';
 import BlogViewer from './BlogViewer';
 import NoSsr from '@/components/NoSsr';
+import dynamic from 'next/dynamic';
 
 interface CustomEditorProps {
     initialEditorData?: OutputData
@@ -69,8 +70,6 @@ const CustomEditor: FC<CustomEditorProps> = () => {
     }
 
     useEffect(() => {
-        //clearing localstorage before every use
-        // console.log(initialEditorData)
         localStorage.removeItem('editorContent');
         if (editorRef.current && editorRef.current instanceof HTMLElement) {
             const layoutBlockToolConfig: LayoutBlockToolConfig = {
@@ -411,12 +410,4 @@ const CustomEditor: FC<CustomEditorProps> = () => {
     )
 }
 
-const CustomEditorWrapper = () => {
-    return (
-      <NoSsr>
-        <CustomEditor />
-      </NoSsr>
-    );
-  }
-  
-export default CustomEditorWrapper ;
+export default dynamic(() => Promise.resolve(CustomEditor), { ssr: false });
