@@ -142,9 +142,6 @@ const CustomEditor: FC<CustomEditorProps> = () => {
                         },
                         linkTool: {
                             class: LinkTool,
-                            config: {
-                                endpoint: '/api/fetchUrl', // Your backend endpoint for url data fetching,
-                            }
                         },
                         embed: {
                             class: Embed,
@@ -294,9 +291,7 @@ const CustomEditor: FC<CustomEditorProps> = () => {
                     // image: SimpleImage,
                     linkTool: {
                         class: LinkTool,
-                        config: {
-                            endpoint: '/api/fetchUrl', // Your backend endpoint for url data fetching,
-                        }
+                        
                     },
                     embed: {
                         class: Embed,
