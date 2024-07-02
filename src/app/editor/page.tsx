@@ -32,12 +32,8 @@ import BlogViewer from './BlogViewer';
 import NoSsr from '@/components/NoSsr';
 import dynamic from 'next/dynamic';
 
-interface CustomEditorProps {
-    initialEditorData?: OutputData
-}
 
-
-const CustomEditor: FC<CustomEditorProps> = () => {
+const CustomEditor= () => {
     const [blogData,setBlogdata]=useState<JSON>();
     // const initialEditorData={"time":1714086080474,"blocks":[{"id":"5M7eLsV8UI","data":{"text":"Hello first blog","level":2,"alignment":"left"},"type":"header"},{"id":"5wkz-yF0vw","data":{"text":"The first blog is about lorem espnaola bannaa and kanana asuy mnghqwkuj auhyqwe azsnfkja","alignment":"left"},"type":"paragraph","tunes":{"textVariant":""}}],"version":"2.29.1"}; //get from props
     const editorRef = useRef<any>();

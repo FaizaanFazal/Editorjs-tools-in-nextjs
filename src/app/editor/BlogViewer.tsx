@@ -3,6 +3,7 @@ import * as DOMPurify from "isomorphic-dompurify";
 import { parse } from 'node-html-parser';
 import React from "react";
 import MermaidChart from "./components/Mermaid";
+import dynamic from "next/dynamic";
 const anchorTargetRegex = /(?<=target=").*?(?=")/g;
 const anchorRelRegex = /(?<=rel=").*?(?=")/g;
 
@@ -327,4 +328,5 @@ const BlogViewer = ({content} : {content: any}) => {
   );
 };
 
-export default BlogViewer;
+
+export default dynamic(() => Promise.resolve(BlogViewer), { ssr: false });
