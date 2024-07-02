@@ -29,9 +29,9 @@ import SimpleImage from '@/module/editor/simple-image/simple_image';
 import Header from '@/module/editor/header/header';
 import { Quote } from '@/module/editor/quote/quote';
 import BlogViewer from './BlogViewer';
+import NoSsr from '@/components/NoSsr';
 
 interface CustomEditorProps {
-    editorDataOnChange: (_newProp: JSON | null) => void;
     initialEditorData?: OutputData
 }
 
@@ -415,4 +415,13 @@ const CustomEditor: FC<CustomEditorProps> = () => {
         </div>
     )
 }
-export default CustomEditor;
+
+const CustomEditorWrapper = () => {
+    return (
+      <NoSsr>
+        <CustomEditor />
+      </NoSsr>
+    );
+  }
+  
+export default CustomEditorWrapper ;

@@ -1,4 +1,3 @@
-'use client'
 import * as DOMPurify from "isomorphic-dompurify";
 import { parse } from 'node-html-parser';
 import React from "react";
