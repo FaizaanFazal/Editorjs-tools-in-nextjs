@@ -218,8 +218,10 @@ class Quote implements BlockTool {
     
     
     _toggleTune(tune: 'center' | 'left' | 'right') {
-        console.log(tune)
         this._toggleAlignmentClass(tune);
+    }
+    private _toggleAlignmentClass(tune: any) {
+        this.data.alignment = tune;
     }
     
     _make(tagName: string, classNames: string[] | string = [], attributes: object = {}): Element {
