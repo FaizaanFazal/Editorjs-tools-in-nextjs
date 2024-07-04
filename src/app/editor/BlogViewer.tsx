@@ -282,6 +282,12 @@ const BlogViewer = ({content} : {content: any}) => {
               <div class="caption">${caption || ''}</div>`;
           } 
       }
+      else if (block?.type === 'raw') {
+        const  html  = block.data.html
+        let classNames='mx-auto'
+        sanitzedHtml = `<div >${html}</div>`
+        
+      }
 
       let htmlWithBlankTarget = addPropertiesToAnchorTags(
         sanitzedHtml,

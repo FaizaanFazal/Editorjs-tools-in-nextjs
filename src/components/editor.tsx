@@ -38,6 +38,7 @@ const CustomEditor = () => {
     const [editorIsReady, setEditorIsReady] = useState<boolean | null>(null);
 
     const editorDataOnChange = (outputData: JSON | null) => {
+        console.log(outputData)
         setBlogdata(outputData || ({} as JSON));
     };
 
@@ -352,6 +353,7 @@ const CustomEditor = () => {
                         onChange: async () => {
                             try {
                                 const outputData: any = await editor.save();
+                                console.log(outputData)
                                 editorDataOnChange(outputData);
                             } catch (error) {
                                 console.log('Saving failed: ', error);
