@@ -394,12 +394,12 @@ const CustomEditor = () => {
     }, []);
 
     return (
-        <div className='py-4 px-12 w-[100%]'>
-            <div ref={editorRef} className={editorIsReady ? `editorTypographyStyling` : ''} style={{ maxWidth: 'unset' }}>
+        <div className='py-4 px-12 w-[100%]  h-screen '>
+            <div ref={editorRef} className={"dark:bg-black dark:text-white" + editorIsReady ? `editorTypographyStyling` : ''} style={{ maxWidth: 'unset' }}>
                 {editorIsReady === null ? <div className="text-center">Loading...</div> : null}
                 {editorIsReady === false ? <div className="text-center">Unable to load editor...</div> : null}
             </div>
-            <div className='mt-4 border-t-2 w-[80%] mx-auto'>
+            <div className='mt-4 border-t-2 w-[80%] mx-auto dark:bg-black dark:text-white'>
                 <div>Editor Output:</div>
                 {blogData &&
                     <BlogViewer content={JSON.parse(JSON.stringify(blogData))} />

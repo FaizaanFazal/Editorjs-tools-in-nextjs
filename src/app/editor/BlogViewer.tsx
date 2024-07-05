@@ -104,7 +104,7 @@ const BlogViewer = ({content} : {content: any}) => {
                 : level === 5
                   ? "text-lg"
                   : "text-base";
-      return `${fontSize} font-semibold text-gray-900 text-white pt-8 tracking-[-.003em] break-words ${
+      return `${fontSize} font-semibold text-gray-900 dark:text-white pt-8 tracking-[-.003em] break-words ${
         alignment === "right"
           ? "text-right"
           : alignment === "center"
@@ -113,7 +113,7 @@ const BlogViewer = ({content} : {content: any}) => {
               :"text-left"
       }`;
     } else if (type === "quote") {
-      return `text-lg lg:text-xl italic font-semibold p-4 my-4 border-s-4 border-gray-500 bg-gray-800 text-gray-900 text-white flex flex-col ${
+      return `text-lg lg:text-xl italic font-semibold p-4 my-4 border-s-4 border-gray-500 bg-gray-800 text-gray-900 dark:text-white flex flex-col ${
         alignment === "right"
           ? "items-end"
           : alignment === "center"
@@ -181,7 +181,7 @@ const BlogViewer = ({content} : {content: any}) => {
       if (block?.type === "quote") {
         sanitzedHtml = `<svg class="w-8 h-8 text-gray-400 dark:text-gray-600 mb-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 14">
                           <path d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z"/>
-                          </svg><div>${sanitzedHtml}</div><div class="text-base mt-4"><cite class="pe-3 font-medium text-white">${block?.data?.caption}</cite></div>`;
+                          </svg><div>${sanitzedHtml}</div><div class="text-base mt-4"><cite class="pe-3 font-medium dark:text-white">${block?.data?.caption}</cite></div>`;
       } else if (block?.type === "warning") {
         sanitzedHtml = DOMPurify.sanitize(
           `<span class="font-medium">${block?.data?.title}!</span> ${block?.data?.message}`
@@ -192,7 +192,7 @@ const BlogViewer = ({content} : {content: any}) => {
         sanitzedHtml = DOMPurify.sanitize(block?.data?.message);
       } else if (block?.type === "list") {
         sanitzedHtml = block?.data?.items
-          ?.map((i: string) => `<li class="text-lg md:text-xl text-white">${i}</li>`)
+          ?.map((i: string) => `<li class="text-lg md:text-xl dark:text-white">${i}</li>`)
           .join("");
       } else if (block?.type === "checklist") {
         sanitzedHtml = block?.data?.items
@@ -293,7 +293,7 @@ const BlogViewer = ({content} : {content: any}) => {
         sanitzedHtml,
         targetForAnchorTags,
         relForAnchorTags,
-        block?.type === "AnyButton" ? "font-medium rounded-md shadow-lg px-4 py-2.5 bg-blue-600 text-white flex justify-center items-center" : undefined
+        block?.type === "AnyButton" ? "font-medium rounded-md shadow-lg px-4 py-2.5 bg-blue-600 dark:text-white flex justify-center items-center" : undefined
       );
       const blockType =
         block?.type === "list" ? block?.data?.style : block?.type;
@@ -328,7 +328,7 @@ const BlogViewer = ({content} : {content: any}) => {
   }
 
   return (
-    <div className="mt-3 mb-[50px] antialiased" style={{textRendering: "optimizeLegibility" }}>
+    <div className="mt-3 mb-[50px] antialiased dark:!text-white" style={{textRendering: "optimizeLegibility" }}>
       {mapContentBlocks(content?.blocks || [])}
     </div>
   );
