@@ -113,7 +113,7 @@ const BlogViewer = ({content} : {content: any}) => {
               :"text-left"
       }`;
     } else if (type === "quote") {
-      return `text-lg lg:text-xl italic font-semibold p-4 my-4 border-s-4 border-gray-500 bg-gray-800 text-gray-900 dark:text-white flex flex-col ${
+      return `text-lg lg:text-xl italic font-semibold p-4 my-4 border-s-4 border-gray-500 bg-gray-800 text-gray-900 text-white flex flex-col ${
         alignment === "right"
           ? "items-end"
           : alignment === "center"

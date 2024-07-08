@@ -397,8 +397,8 @@ const CustomEditor = () => {
     };
 
     return (
-        <div className={`w-[90%] mx-auto border-4  border-gray-600  h-screen ${isToggled ? 'dark' : ''}`}>
-            <div className='py-4 px-12  dark:bg-black dark:text-white h-full w-[100%]'>
+        <div className={`w-[90%] mx-auto border-4  border-gray-600  min-h-screen ${isToggled ? 'dark' : ''}`}>
+            <div className='py-4 px-12  dark:bg-black dark:text-white min-h-screen h-full w-[100%]'>
                 <div className='flex row justify-end'>
                     <button
                         onClick={handleToggle}
