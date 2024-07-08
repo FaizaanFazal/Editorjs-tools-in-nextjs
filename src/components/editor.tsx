@@ -20,12 +20,10 @@ import TextVariantTune from '@editorjs/text-variant-tune';
 import DragDrop from 'editorjs-drag-drop';
 import Undo from 'editorjs-undo';
 import RawTool from '@editorjs/raw';
-
 import { LayoutBlockTool, LayoutBlockToolConfig } from 'editorjs-layout';
 import SimpleImage from '@/module/editor/simple-image/simple_image';
 import Header from '@/module/editor/header/header';
 import { Quote } from '@/module/editor/quote/quote';
-// import BlogViewer from './BlogViewer';
 import dynamic from 'next/dynamic';
 import CustomList from './customList';
 
@@ -33,6 +31,7 @@ const BlogViewer = dynamic(() => import('@/app/editor/BlogViewer'), { ssr: false
 
 const CustomEditor = () => {
     const [blogData, setBlogdata] = useState<JSON>();
+    const [isToggled, setIsToggled] = useState(false);
     // const initialEditorData={"time":1714086080474,"blocks":[{"id":"5M7eLsV8UI","data":{"text":"Hello first blog","level":2,"alignment":"left"},"type":"header"},{"id":"5wkz-yF0vw","data":{"text":"The first blog is about lorem espnaola bannaa and kanana asuy mnghqwkuj auhyqwe azsnfkja","alignment":"left"},"type":"paragraph","tunes":{"textVariant":""}}],"version":"2.29.1"}; //get from props
     const editorRef = useRef<any>();
     const [editorIsReady, setEditorIsReady] = useState<boolean | null>(null);
@@ -393,18 +392,30 @@ const CustomEditor = () => {
         };
     }, []);
 
-    return (
-        <div className='py-4 px-12 w-[100%]  h-screen '>
-            <div ref={editorRef} className={"dark:bg-black dark:text-white" + editorIsReady ? `editorTypographyStyling` : ''} style={{ maxWidth: 'unset' }}>
-                {editorIsReady === null ? <div className="text-center">Loading...</div> : null}
-                {editorIsReady === false ? <div className="text-center">Unable to load editor...</div> : null}
-            </div>
-            <div className='mt-4 border-t-2 w-[80%] mx-auto dark:bg-black dark:text-white'>
-                <div>Editor Output:</div>
-                {blogData &&
-                    <BlogViewer content={JSON.parse(JSON.stringify(blogData))} />
+    const handleToggle = () => {
+        setIsToggled(!isToggled);
+    };
 
-                }
+    return (
+        <div className={`w-[90%] mx-auto border-4  border-gray-600  h-screen ${isToggled ? 'dark' : ''}`}>
+            <div className='py-4 px-12  dark:bg-black dark:text-white h-full w-[100%]'>
+                <div className='flex row justify-end'>
+                    <button
+                        onClick={handleToggle}
+                        className={`py-2 px-4 rounded border-2 border-red-400 ${isToggled ? 'bg-black text-white' : 'bg-gray-200 text-black'}`}>
+                        {isToggled ? 'Dark' : 'Light'}
+                    </button>
+                </div>
+                <div ref={editorRef} className={`dark:bg-black dark:!text-white ${ editorIsReady ? `editorTypographyStyling` : ''}`} style={{ maxWidth: 'unset' }}>
+                    {editorIsReady === null ? <div className="text-center">Loading...</div> : null}
+                    {editorIsReady === false ? <div className="text-center">Unable to load editor...</div> : null}
+                </div>
+                <div className='mt-4 border-t-2 w-[80%] mx-auto dark:bg-black dark:text-white'>
+                    <div>Editor Output:</div>
+                    {blogData &&
+                        <BlogViewer content={JSON.parse(JSON.stringify(blogData))} />
+                    }
+                </div>
             </div>
         </div>
     )
