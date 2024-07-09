@@ -507,7 +507,7 @@ const CustomEditor = () => {
                     {editorIsReady === false ? <div className="text-center">Unable to load editor...</div> : null}
                 </div>
                 <div className='mt-4 border-t-2 w-[80%] mx-auto '>
-                    <div className='dark:text-white'>Editor Output:</div>
+                    <div className='dark:text-white'>Editor Viewer Output using tailwind CSS:</div>
                     {blogData &&
                         <BlogViewer content={JSON.parse(JSON.stringify(blogData))} />
                     }
