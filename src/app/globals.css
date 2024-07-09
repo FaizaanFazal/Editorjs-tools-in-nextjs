@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -14,8 +12,6 @@
   --main: #111827;
   --primary: #0f172a;
   --selected: rgba(255, 255, 255, 0.2);
-  --border: #1e293b;
-  /* Text and icon colors */
   --text: white;
 }
 
