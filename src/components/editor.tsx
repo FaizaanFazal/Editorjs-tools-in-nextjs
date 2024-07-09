@@ -398,6 +398,102 @@ const CustomEditor = () => {
 
     return (
         <div className={`w-[90%] mx-auto border-4  border-gray-600  min-h-screen ${isToggled ? 'dark' : ''}`}>
+            <style jsx>
+                {`.ce-block--selected .ce-block__content,
+                    .ce-inline-toolbar,
+                    .codex-editor--narrow .ce-toolbox,
+                    .ce-conversion-toolbar,
+                    .ce-settings,
+                    .ce-settings__button,
+                    .ce-toolbar__settings-btn,
+                    .cdx-button,
+                    .ce-popover,
+                    .ce-toolbar__plus:hover {
+                    background: #0000;
+                    color: inherit;
+                    }
+
+                    .ce-inline-tool,
+                    .ce-conversion-toolbar__label,
+                    .ce-toolbox__button,
+                    .cdx-settings-button,
+                    .ce-toolbar__plus {
+                    color: inherit;
+                    }
+
+                    ::selection {
+                    background: #000;
+                    }
+
+                    .cdx-settings-button:hover,
+                    .ce-settings__button:hover,
+                    .ce-toolbox__button--active,
+                    .ce-toolbox__button:hover,
+                    .cdx-button:hover,
+                    .ce-inline-toolbar__dropdown:hover,
+                    .ce-inline-tool:hover,
+                    .ce-popover__item:hover,
+                    .ce-toolbar__settings-btn:hover {
+                    background-color: #aaaaaa;
+                    color: inherit;
+                    }
+
+                    .cdx-notify--error {
+                    background: #fb5d5d !important;
+                    }
+
+                    .cdx-notify__cross::after,
+                    .cdx-notify__cross::before {
+                    background: white;
+                    }
+
+                    .dark .ce-inline-toolbar,
+                    .dark .codex-editor--narrow .ce-toolbox,
+                    .dark .ce-conversion-toolbar,
+                    .dark .ce-settings,
+                    .dark .ce-settings__button,
+                    .dark .ce-toolbar__settings-btn,
+                    .dark .cdx-button,
+                    .dark .ce-popover,
+                    .dark .ce-toolbar__plus:hover {
+                    background: #fff;
+                    color: #000;
+                    }
+
+                    .dark .ce-inline-tool,
+                    .dark .ce-conversion-toolbar__label,
+                    .dark .ce-toolbox__button,
+                    .dark .cdx-settings-button,
+                    .dark .ce-toolbar__plus {
+                    color: #616161;
+                    }
+
+                    .dark ::selection {
+                    background: #4d4d4d;
+                    }
+
+                    .dark .cdx-settings-button:hover,
+                    .dark .ce-settings__button:hover,
+                    .dark .ce-toolbox__button--active,
+                    .dark .ce-toolbox__button:hover,
+                    .dark .cdx-button:hover,
+                    .dark .ce-inline-toolbar__dropdown:hover,
+                    .dark .ce-inline-tool:hover,
+                    .dark .ce-popover__item:hover,
+                    .dark .ce-toolbar__settings-btn:hover {
+                    background-color: #4d4d4d;
+                    color: #fff;
+                    }
+
+                    .dark .cdx-notify--error {
+                    background: #fb5d5d !important;
+                    }
+
+                    .dark .cdx-notify__cross::after,
+                    .dark .cdx-notify__cross::before {
+                    background: #1a1a1a;
+                    }`}
+            </style>
             <div className='py-4 px-12  dark:bg-black dark:text-white min-h-screen h-full w-[100%]'>
                 <div className='flex row justify-end'>
                     <button
@@ -406,7 +502,7 @@ const CustomEditor = () => {
                         {isToggled ? 'Dark' : 'Light'}
                     </button>
                 </div>
-                <div ref={editorRef} className={`dark:bg-black dark:!text-white ${ editorIsReady ? `editorTypographyStyling` : ''}`} style={{ maxWidth: 'unset' }}>
+                <div ref={editorRef} className={`dark:bg-black dark:!text-white ${editorIsReady ? `editorTypographyStyling` : ''}`} style={{ maxWidth: 'unset' }}>
                     {editorIsReady === null ? <div className="text-center">Loading...</div> : null}
                     {editorIsReady === false ? <div className="text-center">Unable to load editor...</div> : null}
                 </div>
