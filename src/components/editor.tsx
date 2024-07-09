@@ -494,7 +494,7 @@ const CustomEditor = () => {
                     background: #1a1a1a;
                     }`}
             </style>
-            <div className='py-4 px-12  dark:bg-black dark:text-white min-h-screen h-full w-[100%]'>
+            <div className='py-4 px-12 min-h-screen h-full w-[100%]'>
                 <div className='flex row justify-end'>
                     <button
                         onClick={handleToggle}
@@ -502,11 +502,11 @@ const CustomEditor = () => {
                         {isToggled ? 'Dark' : 'Light'}
                     </button>
                 </div>
-                <div ref={editorRef} className={`dark:bg-black dark:!text-white ${editorIsReady ? `editorTypographyStyling` : ''}`} style={{ maxWidth: 'unset' }}>
+                <div ref={editorRef} className={` ${editorIsReady ? `editorTypographyStyling` : ''}`} style={{ maxWidth: 'unset' }}>
                     {editorIsReady === null ? <div className="text-center">Loading...</div> : null}
                     {editorIsReady === false ? <div className="text-center">Unable to load editor...</div> : null}
                 </div>
-                <div className='mt-4 border-t-2 w-[80%] mx-auto dark:bg-black dark:text-white'>
+                <div className='mt-4 border-t-2 w-[80%] mx-auto '>
                     <div>Editor Output:</div>
                     {blogData &&
                         <BlogViewer content={JSON.parse(JSON.stringify(blogData))} />
