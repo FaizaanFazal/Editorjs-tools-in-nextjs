@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 const anchorTargetRegex = /(?<=target=").*?(?=")/g;
 const anchorRelRegex = /(?<=rel=").*?(?=")/g;
 
-const BlogViewer = ({content} : {content: any}) => {
+const BlogViewer = ({ content }: { content: any }) => {
   const addPropertiesToAnchorTags = (
     htmlString: string,
     targetForAnchorTags: [],
@@ -67,14 +67,14 @@ const BlogViewer = ({content} : {content: any}) => {
 
   const getTunesTextVariant = (tunesTextVariant: string) => {
     switch (tunesTextVariant) {
-    case "details":
-      return "text-sm text-gray-600 italic";
-    case "call-out":
-      return "text-lg font-semibold text-blue-600 bg-blue-100 p-3 border-l-4 border-blue-500";
-    case "citation":
-      return "text-xs text-gray-500";
-    default:
-      return "";
+      case "details":
+        return "text-sm text-gray-600 italic";
+      case "call-out":
+        return "text-lg font-semibold text-blue-600 bg-blue-100 p-3 border-l-4 border-blue-500";
+      case "citation":
+        return "text-xs text-gray-500";
+      default:
+        return "";
     }
   };
 
@@ -90,7 +90,7 @@ const BlogViewer = ({content} : {content: any}) => {
         : alignment === "center"
           ? "text-center"
           : alignment === "justify" ? "text-justify"
-            :"text-left"}`;
+            : "text-left"}`;
     } else if (type === "header") {
       const fontSize =
         level === 1
@@ -104,22 +104,20 @@ const BlogViewer = ({content} : {content: any}) => {
                 : level === 5
                   ? "text-lg"
                   : "text-base";
-      return `${fontSize} font-semibold text-gray-900 dark:text-white pt-8 tracking-[-.003em] break-words ${
-        alignment === "right"
+      return `${fontSize} font-semibold text-gray-900 dark:text-white pt-8 tracking-[-.003em] break-words ${alignment === "right"
           ? "text-right"
           : alignment === "center"
             ? "text-center"
             : alignment === "justify" ? "text-justify"
-              :"text-left"
-      }`;
+              : "text-left"
+        }`;
     } else if (type === "quote") {
-      return `text-lg lg:text-xl italic font-semibold p-4 my-4 border-s-4 border-gray-500 bg-gray-800 text-gray-900 text-white flex flex-col ${
-        alignment === "right"
+      return `text-lg lg:text-xl italic font-semibold p-4 my-4 border-s-4 border-gray-500 bg-gray-800 text-gray-900 text-white flex flex-col ${alignment === "right"
           ? "items-end"
           : alignment === "center"
             ? "items-center"
             : "items-start"
-      }`;
+        }`;
     } else if (type === "warning") {
       return "p-4 mb-4 text-md text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300";
     } else if (type === "delimiter") {
@@ -233,15 +231,15 @@ const BlogViewer = ({content} : {content: any}) => {
             </thead>
             <tbody class='flex flex-col w-full'>
               ${block?.data?.content.map((c: string[], index: number) => {
-    if (index) {
-      return `
+          if (index) {
+            return `
                     <tr key="${index}" class="flex bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                       ${c?.map((r) => `<td class="px-6 py-4 flex flex-1">${r}</td>`).join('')}
                     </tr>
                   `
-    }
-    return '';
-  }).join('')}
+          }
+          return '';
+        }).join('')}
             </tbody>
           </table>`;
       } else if (block?.type === 'AnyButton') {
@@ -249,14 +247,14 @@ const BlogViewer = ({content} : {content: any}) => {
           <a href="${block?.data?.link}">${block?.data?.text}</a>
         `
       } else if (block?.type === 'image') {
-        const { url, caption,alt, withBorder, withBackground, stretched } = block.data;
+        const { url, caption, alt, withBorder, withBackground, stretched } = block.data;
 
         let classNames = 'w-full h-auto max-h-[70vh] blogdetail-img-border object-cover object-center hidden aspect-video';
         if (withBorder) classNames += ' border-2 border-gray-300';
         if (withBackground) classNames += ' bg-gray-200';
         if (stretched) classNames += ' w-full ';
 
-        sanitzedHtml =`<div class="${stretched ? 'w-full flex justify-center flex-col items-center' : ' w-full flex justify-center flex-col items-center '}">
+        sanitzedHtml = `<div class="${stretched ? 'w-full flex justify-center flex-col items-center' : ' w-full flex justify-center flex-col items-center '}">
                 <div class="h-[30vh] bg-gray-200 rounded dark:bg-gray-700 w-full mb-4 animate-pulse"></div>
                 <img src="${url}" alt="${alt}" class="${classNames}" onload="imageLoaded(this)"/>
                 ${caption && `<p class="text-center text-sm mt-2">${caption}</p>`}
@@ -273,20 +271,76 @@ const BlogViewer = ({content} : {content: any}) => {
         return [component];
       }
       else if (block?.type === 'embed') {
-        const { service, source,embed, width, height, caption } = block.data;
-        let classNames='mx-auto'
+        const { service, source, embed, width, height, caption } = block.data;
+        let classNames = 'mx-auto'
         if (service === 'youtube') {
-            sanitzedHtml = `<div class="embed-responsive embed-responsive-16by9">
+          sanitzedHtml = `<div class="embed-responsive embed-responsive-16by9">
                 <iframe class="${classNames} embed-responsive-item" src="${embed}" width="${width}" height="${height}" frameborder="0" allowfullscreen></iframe> 
               </div>
               <div class="caption">${caption || ''}</div>`;
-          } 
+        }
+        else if (service === 'instagram') {
+          let postId = ''
+          let type = '';
+          if (source) {
+            const parts = source.split('/');
+            const index = parts.indexOf('www.instagram.com');
+            type = parts[index + 1];
+            postId = parts[index + 2];
+          }
+          console.log(type,postId)
+          sanitzedHtml = `
+            <iframe class="instagram-media instagram-media-rendered" 
+                    id="instagram-embed-0" 
+                    src="https://www.instagram.com/${type}/${postId}/embed/captioned/?cr=1&v=14&wp=810&rd=https%3A%2F%2Fbehold.so&rp=%2Fguides%2Fhow-to-embed-an-instagram-feed-on-your-website%2F#%7B%22ci%22%3A0%2C%22os%22%3A423.1000003814697%2C%22ls%22%3A407.7000002861023%2C%22le%22%3A412.30000019073486%7D" 
+                    allowtransparency="true" 
+                    allowfullscreen="true" 
+                    frameborder="0" 
+                    height="947" 
+                    data-instgrm-payload-id="instagram-media-payload-0" 
+                    scrolling="no" 
+                    style="background: white; max-width: 540px; width: calc(100% - 2px); border-radius: 3px; border: 1px solid rgb(219, 219, 219); box-shadow: none; display: block; margin: 0px 0px 12px; min-width: 326px; padding: 0px;">
+            </iframe>
+          `
+        }
       }
       else if (block?.type === 'raw') {
-        const  html  = block.data.html
-        let classNames='mx-auto'
-        sanitzedHtml = `<div >${html}</div>`
-        
+        const { html } = block.data
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const blockquote = doc.querySelector('blockquote.instagram-media');
+
+        if (blockquote) {
+          const permalink = blockquote.getAttribute('data-instgrm-permalink');
+          let postId = ''
+          let type = '';
+          if (permalink) {
+            const parts = permalink.split('/');
+            const index = parts.indexOf('www.instagram.com');
+            type = parts[index + 1];
+            postId = parts[index + 2];
+          }
+          console.log(type, postId)
+
+          sanitzedHtml = `
+            <iframe class="instagram-media instagram-media-rendered" 
+                    id="instagram-embed-0" 
+                    src="https://www.instagram.com/${type}/${postId}/embed/captioned/?cr=1&v=14&wp=810&rd=https%3A%2F%2Fbehold.so&rp=%2Fguides%2Fhow-to-embed-an-instagram-feed-on-your-website%2F#%7B%22ci%22%3A0%2C%22os%22%3A423.1000003814697%2C%22ls%22%3A407.7000002861023%2C%22le%22%3A412.30000019073486%7D" 
+                    allowtransparency="true" 
+                    allowfullscreen="true" 
+                    frameborder="0" 
+                    height="947" 
+                    data-instgrm-payload-id="instagram-media-payload-0" 
+                    scrolling="no" 
+                    style="background: white; max-width: 540px; width: calc(100% - 2px); border-radius: 3px; border: 1px solid rgb(219, 219, 219); box-shadow: none; display: block; margin: 0px 0px 12px; min-width: 326px; padding: 0px;">
+            </iframe>
+          `;
+          // let classNames=''
+          // sanitzedHtml = `
+          //   <iframe class="instagram-media instagram-media-rendered" id="instagram-embed-0" src="https://www.instagram.com/p/CEuqUvxBqGB/embed/captioned/?cr=1&amp;v=14&amp;wp=810&amp;rd=https%3A%2F%2Fbehold.so&amp;rp=%2Fguides%2Fhow-to-embed-an-instagram-feed-on-your-website%2F#%7B%22ci%22%3A0%2C%22os%22%3A423.1000003814697%2C%22ls%22%3A407.7000002861023%2C%22le%22%3A412.30000019073486%7D" allowtransparency="true" allowfullscreen="true" frameborder="0" height="947" data-instgrm-payload-id="instagram-media-payload-0" scrolling="no" style="background: white; max-width: 540px; width: calc(100% - 2px); border-radius: 3px; border: 1px solid rgb(219, 219, 219); box-shadow: none; display: block; margin: 0px 0px 12px; min-width: 326px; padding: 0px;"></iframe>
+          //  `
+
+        }
       }
 
       let htmlWithBlankTarget = addPropertiesToAnchorTags(
@@ -328,7 +382,7 @@ const BlogViewer = ({content} : {content: any}) => {
   }
 
   return (
-    <div className="mt-3 mb-[50px] antialiased dark:!text-white" style={{textRendering: "optimizeLegibility" }}>
+    <div className="mt-3 mb-[50px] antialiased dark:!text-white" style={{ textRendering: "optimizeLegibility" }}>
       {mapContentBlocks(content?.blocks || [])}
     </div>
   );

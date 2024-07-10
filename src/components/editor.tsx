@@ -37,7 +37,6 @@ const CustomEditor = () => {
     const [editorIsReady, setEditorIsReady] = useState<boolean | null>(null);
 
     const editorDataOnChange = (outputData: JSON | null) => {
-        console.log(outputData)
         setBlogdata(outputData || ({} as JSON));
     };
 
@@ -78,7 +77,18 @@ const CustomEditor = () => {
                                         placeholder: 'Paste image URL'
                                     }
                                 },
-                                raw: RawTool,
+                                raw: {
+                                    class:RawTool,
+                                    config:{
+                                        styles: {
+                                            textarea: {
+                                                maxWidth: "100%",
+                                                maxHeight: "300px", // not working so check globalcss class: ce_rawtool__textarea
+                                                resize: "vertical", 
+                                            }
+                                        }
+                                    }
+                                },
                                 header: {
                                     class: Header as unknown as ToolConstructable,
                                     shortcut: 'CMD+SHIFT+H',
@@ -352,7 +362,7 @@ const CustomEditor = () => {
                         onChange: async () => {
                             try {
                                 const outputData: any = await editor.save();
-                                console.log(outputData)
+                               
                                 editorDataOnChange(outputData);
                             } catch (error) {
                                 console.log('Saving failed: ', error);
