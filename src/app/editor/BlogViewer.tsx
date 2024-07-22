@@ -283,6 +283,7 @@ const BlogViewer = ({ content }: { content: any }) => {
               <div class="caption">${caption || ''}</div>`;
         }
         else if (service === 'instagram') {
+             let classNames = 'mx-auto'
           let postId = ''
           let type = '';
           if (source) {
@@ -293,23 +294,21 @@ const BlogViewer = ({ content }: { content: any }) => {
           }
           console.log(type,postId)
           sanitzedHtml = `
-            <iframe class="instagram-media instagram-media-rendered" 
-                    id="instagram-embed-0" 
+            <iframe class="mx-auto instagram-media instagram-media-rendered" 
                     src="https://www.instagram.com/${type}/${postId}/embed/captioned/?cr=1&v=14&wp=810&rd=https%3A%2F%2Fbehold.so&rp=%2Fguides%2Fhow-to-embed-an-instagram-feed-on-your-website%2F#%7B%22ci%22%3A0%2C%22os%22%3A423.1000003814697%2C%22ls%22%3A407.7000002861023%2C%22le%22%3A412.30000019073486%7D" 
                     allowtransparency="true" 
                     allowfullscreen="true" 
                     frameborder="0" 
                     height="947" 
-                    data-instgrm-payload-id="instagram-media-payload-0" 
                     scrolling="no" 
-                    style="background: white; max-width: 540px; width: calc(100% - 2px); border-radius: 3px; border: 1px solid rgb(219, 219, 219); box-shadow: none; display: block; margin: 0px 0px 12px; min-width: 326px; padding: 0px;">
+                    style="background: white; max-width: 540px; width: calc(100% - 2px); border-radius: 3px; border: 1px solid rgb(219, 219, 219); box-shadow: none; display: block;  min-width: 326px; padding: 0px;">
             </iframe>
           `
         }
         else  if (service === 'pinterest') {
           //https://pin.it/74uVkUngj
           sanitzedHtml = `<div class="">
-               <iframe scrolling="yes" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width: 100%; min-height: 700px; max-height: 1000px;" src="${embed}" class="embed-tool__content"></iframe>
+               <iframe scrolling="yes" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width: 100%; min-height: 700px; max-height: 1000px;" src="${embed}" class="embed-tool__content" ></iframe>
                 <div class="caption">${caption || ''}</div>
               </div>
               `;
@@ -334,7 +333,7 @@ const BlogViewer = ({ content }: { content: any }) => {
           console.log(type, postId)
 
           sanitzedHtml = `
-            <iframe class="instagram-media instagram-media-rendered" 
+            <iframe class="mx-auto instagram-media instagram-media-rendered" 
                     id="instagram-embed-0" 
                     src="https://www.instagram.com/${type}/${postId}/embed/captioned/?cr=1&v=14&wp=810&rd=https%3A%2F%2Fbehold.so&rp=%2Fguides%2Fhow-to-embed-an-instagram-feed-on-your-website%2F#%7B%22ci%22%3A0%2C%22os%22%3A423.1000003814697%2C%22ls%22%3A407.7000002861023%2C%22le%22%3A412.30000019073486%7D" 
                     allowtransparency="true" 
@@ -343,7 +342,7 @@ const BlogViewer = ({ content }: { content: any }) => {
                     height="947" 
                     data-instgrm-payload-id="instagram-media-payload-0" 
                     scrolling="no" 
-                    style="background: white; max-width: 540px; width: calc(100% - 2px); border-radius: 3px; border: 1px solid rgb(219, 219, 219); box-shadow: none; display: block; margin: 0px 0px 12px; min-width: 326px; padding: 0px;">
+                    style="background: white; max-width: 540px; width: calc(100% - 2px); border-radius: 3px; border: 1px solid rgb(219, 219, 219); box-shadow: none; display: block; min-width: 326px; padding: 0px;">
             </iframe>
           `;
           // let classNames=''

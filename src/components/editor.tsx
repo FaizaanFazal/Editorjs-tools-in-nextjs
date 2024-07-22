@@ -149,7 +149,8 @@ const CustomEditor = () => {
                                 },
                                 embed: {
                                     class: Embed,
-                                    inlineToolbar: true
+                                    inlineToolbar: true,
+                                    tunes: ['textVariant']
                                 },
                                 mermaid: MermaidTool,
                                 AnyButton: {
