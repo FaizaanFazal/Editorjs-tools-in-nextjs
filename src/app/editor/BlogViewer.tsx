@@ -4,10 +4,12 @@ import { parse } from 'node-html-parser';
 import React from "react";
 import MermaidChart from "./components/Mermaid";
 import dynamic from "next/dynamic";
+import { json } from "stream/consumers";
 const anchorTargetRegex = /(?<=target=").*?(?=")/g;
 const anchorRelRegex = /(?<=rel=").*?(?=")/g;
 
 const BlogViewer = ({ content }: { content: any }) => {
+
   const addPropertiesToAnchorTags = (
     htmlString: string,
     targetForAnchorTags: [],
@@ -272,6 +274,7 @@ const BlogViewer = ({ content }: { content: any }) => {
       }
       else if (block?.type === 'embed') {
         const { service, source, embed, width, height, caption } = block.data;
+        console.log("service",service, JSON.stringify(block.data))
         let classNames = 'mx-auto'
         if (service === 'youtube') {
           sanitzedHtml = `<div class="embed-responsive embed-responsive-16by9">
@@ -302,6 +305,14 @@ const BlogViewer = ({ content }: { content: any }) => {
                     style="background: white; max-width: 540px; width: calc(100% - 2px); border-radius: 3px; border: 1px solid rgb(219, 219, 219); box-shadow: none; display: block; margin: 0px 0px 12px; min-width: 326px; padding: 0px;">
             </iframe>
           `
+        }
+        else  if (service === 'pinterest') {
+          //https://pin.it/74uVkUngj
+          sanitzedHtml = `<div class="">
+               <iframe scrolling="yes" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width: 100%; min-height: 700px; max-height: 1000px;" src="${embed}" class="embed-tool__content"></iframe>
+                <div class="caption">${caption || ''}</div>
+              </div>
+              `;
         }
       }
       else if (block?.type === 'raw') {
