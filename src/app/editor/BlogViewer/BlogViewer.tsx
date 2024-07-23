@@ -2,9 +2,8 @@
 import * as DOMPurify from "isomorphic-dompurify";
 import { parse } from 'node-html-parser';
 import React from "react";
-import MermaidChart from "./components/Mermaid";
+import MermaidChart from "../components/Mermaid";
 import dynamic from "next/dynamic";
-import { json } from "stream/consumers";
 const anchorTargetRegex = /(?<=target=").*?(?=")/g;
 const anchorRelRegex = /(?<=rel=").*?(?=")/g;
 
@@ -250,12 +249,10 @@ const BlogViewer = ({ content }: { content: any }) => {
         `
       } else if (block?.type === 'image') {
         const { url, caption, alt, withBorder, withBackground, stretched } = block.data;
-
         let classNames = 'w-full h-auto max-h-[70vh] blogdetail-img-border object-cover object-center hidden aspect-video';
         if (withBorder) classNames += ' border-2 border-gray-300';
         if (withBackground) classNames += ' bg-gray-200';
         if (stretched) classNames += ' w-full ';
-
         sanitzedHtml = `<div class="${stretched ? 'w-full flex justify-center flex-col items-center' : ' w-full flex justify-center flex-col items-center '}">
                 <div class="h-[30vh] bg-gray-200 rounded dark:bg-gray-700 w-full mb-4 animate-pulse"></div>
                 <img src="${url}" alt="${alt}" class="${classNames}" onload="imageLoaded(this)"/>
@@ -345,11 +342,10 @@ const BlogViewer = ({ content }: { content: any }) => {
                     style="background: white; max-width: 540px; width: calc(100% - 2px); border-radius: 3px; border: 1px solid rgb(219, 219, 219); box-shadow: none; display: block; min-width: 326px; padding: 0px;">
             </iframe>
           `;
-          // let classNames=''
-          // sanitzedHtml = `
-          //   <iframe class="instagram-media instagram-media-rendered" id="instagram-embed-0" src="https://www.instagram.com/p/CEuqUvxBqGB/embed/captioned/?cr=1&amp;v=14&amp;wp=810&amp;rd=https%3A%2F%2Fbehold.so&amp;rp=%2Fguides%2Fhow-to-embed-an-instagram-feed-on-your-website%2F#%7B%22ci%22%3A0%2C%22os%22%3A423.1000003814697%2C%22ls%22%3A407.7000002861023%2C%22le%22%3A412.30000019073486%7D" allowtransparency="true" allowfullscreen="true" frameborder="0" height="947" data-instgrm-payload-id="instagram-media-payload-0" scrolling="no" style="background: white; max-width: 540px; width: calc(100% - 2px); border-radius: 3px; border: 1px solid rgb(219, 219, 219); box-shadow: none; display: block; margin: 0px 0px 12px; min-width: 326px; padding: 0px;"></iframe>
-          //  `
-
+        }
+        else{
+            sanitzedHtml = `<div>${html}</div>
+          `;
         }
       }
 
