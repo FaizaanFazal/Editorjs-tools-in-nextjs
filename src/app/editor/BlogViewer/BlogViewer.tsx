@@ -79,97 +79,98 @@ const BlogViewer = ({ content }: { content: any }) => {
     }
   };
 
+  const getAlignmentClasses = (alignment: string | undefined | null) => {
+    const alignmentMap = {
+      left: 'text-left',
+      center: 'text-center',
+      right: 'text-right',
+      justify: 'text-justify',
+    };
+    return alignmentMap[alignment as 'left' | 'center' | 'right' | 'justify'] || 'text-left';
+  };
+  
+  const getHeaderFontSize = (level: number) => {
+    const fontSizeMap: Record<number, string> = {
+      1: 'text-[44px]',
+      2: 'text-3xl',
+      3: 'text-2xl',
+      4: 'text-xl',
+      5: 'text-lg',
+    };
+    return fontSizeMap[level] || 'text-base';
+  };
+  
+  const getAlertColorClasses = (alertType: string | undefined | null) => {
+    const colorClasses: Record<string, string> = {
+      primary: 'text-blue-800 bg-blue-50 border border-blue-300 dark:bg-blue-800 dark:text-blue-200 dark:border-blue-700',
+      secondary: 'text-gray-800 bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600',
+      info: 'text-blue-700 bg-blue-100 border border-blue-400 dark:bg-blue-700 dark:text-blue-300 dark:border-blue-600',
+      success: 'text-green-800 bg-green-50 border border-green-300 dark:bg-green-800 dark:text-green-200 dark:border-green-700',
+      warning: 'text-yellow-800 bg-yellow-50 border border-yellow-300 dark:bg-yellow-800 dark:text-yellow-200 dark:border-yellow-700',
+      danger: 'text-red-800 bg-red-50 border border-red-300 dark:bg-red-800 dark:text-red-200 dark:border-red-700',
+      light: 'text-gray-800 bg-gray-50 border border-gray-200 dark:bg-white dark:text-gray-800 dark:border-gray-400',
+      dark: 'text-white bg-gray-800 border border-gray-700 dark:bg-black dark:text-gray-300 dark:border-gray-900',
+    };
+    return colorClasses[alertType?.toLowerCase() || 'primary'];
+  };
+  
   const getTailwindClasses = (
     type: string,
     level: number,
     alignment: string | undefined | null,
     alertType: string | undefined | null
   ) => {
-    if (type === "paragraph") {
-      return `font-normal leading-[28px] md:leading-[32px] tracking-[-.003em] break-words text-lg md:text-xl ${alignment === "right"
-        ? "text-right"
-        : alignment === "center"
-          ? "text-center"
-          : alignment === "justify" ? "text-justify"
-            : "text-left"}`;
-    } else if (type === "header") {
-      const fontSize =
-        level === 1
-          ? "text-[44px]"
-          : level === 2
-            ? "text-3xl"
-            : level === 3
-              ? "text-2xl"
-              : level === 4
-                ? "text-xl"
-                : level === 5
-                  ? "text-lg"
-                  : "text-base";
-      return `${fontSize} font-semibold text-gray-900 dark:text-white pt-8 tracking-[-.003em] break-words ${alignment === "right"
-          ? "text-right"
-          : alignment === "center"
-            ? "text-center"
-            : alignment === "justify" ? "text-justify"
-              : "text-left"
-        }`;
-    } else if (type === "quote") {
-      return `text-lg lg:text-xl italic font-semibold p-4 my-4 border-s-4 border-gray-500 bg-gray-800 text-gray-900 text-white flex flex-col ${alignment === "right"
-          ? "items-end"
-          : alignment === "center"
-            ? "items-center"
-            : "items-start"
-        }`;
-    } else if (type === "warning") {
-      return "p-4 mb-4 text-md text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300";
-    } else if (type === "delimiter") {
-      return "text-base text-center p-12";
-    } else if (type === "alert") {
-      const colorClass = {
-        primary:
-          "text-blue-800 bg-blue-50 border border-blue-300 dark:bg-blue-800 dark:text-blue-200 dark:border-blue-700",
-        secondary:
-          "text-gray-800 bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600",
-        info: "text-blue-700 bg-blue-100 border border-blue-400 dark:bg-blue-700 dark:text-blue-300 dark:border-blue-600",
-        success:
-          "text-green-800 bg-green-50 border border-green-300 dark:bg-green-800 dark:text-green-200 dark:border-green-700",
-        warning:
-          "text-yellow-800 bg-yellow-50 border border-yellow-300 dark:bg-yellow-800 dark:text-yellow-200 dark:border-yellow-700",
-        danger:
-          "text-red-800 bg-red-50 border border-red-300 dark:bg-red-800 dark:text-red-200 dark:border-red-700",
-        light:
-          "text-gray-800 bg-gray-50 border border-gray-200 dark:bg-white dark:text-gray-800 dark:border-gray-400",
-        dark: "text-white bg-gray-800 border border-gray-700 dark:bg-black dark:text-gray-300 dark:border-gray-900",
-      }[alertType?.toLowerCase() || "primary"];
-
-      // Define the alignment
-      const alignmentClass = {
-        left: "text-left",
-        center: "text-center",
-        right: "text-right",
-        justify: "text-justify"
-      }[alignment || "left"];
-      return `${colorClass} ${alignmentClass} p-4 my-4 text-md rounded-lg`;
-    } else if (type === "unordered") {
-      return "py-2 space-y-1 text-gray-500 list-disc list-outside dark:text-gray-400 ps-5 mt-2 text-lg md:text-xl";
-    } else if (type === "unorderedNoBullet") {
-      return "py-2 space-y-1 text-gray-500 list-none list-outside dark:text-gray-400 ps-5 mt-2 text-lg md:text-xl";
-    } else if (type === "ordered") {
-      return "ps-5 mt-2 space-y-1 list-decimal list-outside text-lg md:text-xl";
-    } else if (type === "checklist") {
-      return "my-4 text-lg md:text-xl font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white";
-    } else if (type === "linkTool") {
-      return "max-w-[45rem] mx-auto bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden text-lg md:text-xl";
-    } else if (type === "table") {
-      return "";
-    } else if (type === 'AnyButton') {
-      return "flex items-center justify-center"
-    } else if (type === 'image') {
-      return "flex !py-0 items-center justify-center"
-    } else if (type === 'twoColumns') {
-      return "text-lg md:text-xl flex flex-col lg:flex-row border-red gap-4 py-4"
+    switch (type) {
+      case 'paragraph':
+        return `font-normal leading-[28px] md:leading-[32px] tracking-[-.003em] break-words text-lg md:text-xl ${getAlignmentClasses(alignment)}`;
+        
+      case 'header':
+        return `${getHeaderFontSize(level)} font-semibold text-gray-900 dark:text-white pt-8 tracking-[-.003em] break-words ${getAlignmentClasses(alignment)}`;
+        
+      case 'quote':
+        return `text-lg lg:text-xl italic font-semibold p-4 my-4 border-s-4 border-gray-500 bg-gray-800 text-gray-900 text-white flex flex-col ${getAlignmentClasses(alignment)}`;
+  
+      case 'warning':
+        return 'p-4 mb-4 text-md text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300';
+  
+      case 'delimiter':
+        return 'text-base text-center p-12';
+  
+      case 'alert':
+        return `${getAlertColorClasses(alertType)} ${getAlignmentClasses(alignment)} p-4 my-4 text-md rounded-lg`;
+  
+      case 'unordered':
+        return 'py-2 space-y-1 text-gray-500 list-disc list-outside dark:text-gray-400 ps-5 mt-2 text-lg md:text-xl';
+  
+      case 'unorderedNoBullet':
+        return 'py-2 space-y-1 text-gray-500 list-none list-outside dark:text-gray-400 ps-5 mt-2 text-lg md:text-xl';
+  
+      case 'ordered':
+        return 'ps-5 mt-2 space-y-1 list-decimal list-outside text-lg md:text-xl';
+  
+      case 'checklist':
+        return 'my-4 text-lg md:text-xl font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white';
+  
+      case 'linkTool':
+        return 'max-w-[45rem] mx-auto bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden text-lg md:text-xl';
+  
+      case 'table':
+        return '';
+  
+      case 'AnyButton':
+        return 'flex items-center justify-center';
+  
+      case 'image':
+        return 'flex !py-0 items-center justify-center';
+  
+      case 'twoColumns':
+        return 'text-lg md:text-xl flex flex-col lg:flex-row border-red gap-4 py-4';
+  
+      default:
+        return 'text-lg md:text-xl';
     }
-    return "text-lg md:text-xl";
   };
+  
 
   const mapContentBlocks = (blocks: any[]) => {
     return blocks?.map((block: any) => {
