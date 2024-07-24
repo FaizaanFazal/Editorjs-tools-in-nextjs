@@ -1010,10 +1010,10 @@
   dependencies:
     "@codexteam/icons" "^0.0.5"
 
-"@editorjs/editorjs@^2.19.1", "@editorjs/editorjs@^2.29.1":
-  version "2.29.1"
-  resolved "https://registry.yarnpkg.com/@editorjs/editorjs/-/editorjs-2.29.1.tgz#d7c644c5c3fc1ea1022373cbf2c8c3ac9f990b7b"
-  integrity sha512-WRT2pCfikMsvySQJqpCU21LfTZaPuxUWsDO8aFGrPx4MKzOR9D+Ur4mNb3jq0FXx2EMqvIWfTyFixJxtjGHTyQ==
+"@editorjs/editorjs@^2.19.1", "@editorjs/editorjs@^2.30.2":
+  version "2.30.2"
+  resolved "https://registry.yarnpkg.com/@editorjs/editorjs/-/editorjs-2.30.2.tgz#b045af18a9ebe0c02cb32be41b2a98e23ee08e59"
+  integrity sha512-JjtUDs2/aHTEjNZzEf/2cugpIli1+aNeU8mloOd5USbVxv2vC02HTMpv7Vc1UyB7dIuc45JaYSJwgnBZp9duhA==
 
 "@editorjs/embed@^2.5.3":
   version "2.7.1"
@@ -1211,7 +1211,7 @@
 
 "@next/swc-darwin-x64@14.2.3":
   version "14.2.3"
-  resolved "https://registry.yarnpkg.com/@next/swc-darwin-x64/-/swc-darwin-x64-14.2.3.tgz#a3f8af05b5f9a52ac3082e66ac29e125ab1d7b9c"
+  resolved "https://registry.npmjs.org/@next/swc-darwin-x64/-/swc-darwin-x64-14.2.3.tgz"
   integrity sha512-6adp7waE6P1TYFSXpY366xwsOnEXM+y1kgRpjSRVI2CBDOcbRjsJ67Z6EgKIqWIue52d2q/Mx8g9MszARj8IEA==
 
 "@next/swc-linux-arm64-gnu@14.2.3":
@@ -1246,7 +1246,7 @@
 
 "@next/swc-win32-x64-msvc@14.2.3":
   version "14.2.3"
-  resolved "https://registry.npmjs.org/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-14.2.3.tgz"
+  resolved "https://registry.yarnpkg.com/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-14.2.3.tgz#2be4e39ee25bfbd85be78eea17c0e7751dc4323c"
   integrity sha512-Q1/zm43RWynxrO7lW4ehciQVj+5ePBhOK+/K2P7pLFX3JaJ/IZVC69SHidrmZSOkqz7ECIOhhy7XhAFG4JYyHA==
 
 "@nodelib/fs.scandir@2.1.5":

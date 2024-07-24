@@ -1,6 +1,6 @@
 'use client';
 import React, { useRef, useEffect, useState, FC } from 'react';
-import EditorJS, { EditorConfig, ToolConstructable } from '@editorjs/editorjs';
+import EditorJS, { EditorConfig, OutputData, ToolConstructable } from '@editorjs/editorjs';
 import Paragraph from 'editorjs-paragraph-with-alignment';
 import Warning from '@editorjs/warning';
 import Delimiter from '@editorjs/delimiter';
@@ -30,14 +30,14 @@ import CustomList from './customList';
 const BlogViewer = dynamic(() => import('@/app/editor/BlogViewer/BlogViewer'), { ssr: false });
 
 const CustomEditor = () => {
-    const [blogData, setBlogdata] = useState<JSON>();
+    const [blogData, setBlogdata] = useState<OutputData | null>();
     const [isToggled, setIsToggled] = useState(false);
     // const initialEditorData={"time":1714086080474,"blocks":[{"id":"5M7eLsV8UI","data":{"text":"Hello first blog","level":2,"alignment":"left"},"type":"header"},{"id":"5wkz-yF0vw","data":{"text":"The first blog is about lorem espnaola bannaa and kanana asuy mnghqwkuj auhyqwe azsnfkja","alignment":"left"},"type":"paragraph","tunes":{"textVariant":""}}],"version":"2.29.1"}; //get from props
     const editorRef = useRef<any>();
     const [editorIsReady, setEditorIsReady] = useState<boolean | null>(null);
 
-    const editorDataOnChange = (outputData: JSON | null) => {
-        setBlogdata(outputData || ({} as JSON));
+    const editorDataOnChange = (outputData: OutputData | null) => {
+        setBlogdata(outputData);
     };
 
     const onEditorReady = async (editor: EditorJS) => {
@@ -362,7 +362,7 @@ const CustomEditor = () => {
                         },
                         onChange: async () => {
                             try {
-                                const outputData: any = await editor.save();
+                                const outputData = await editor.save();
 
                                 editorDataOnChange(outputData);
                             } catch (error) {

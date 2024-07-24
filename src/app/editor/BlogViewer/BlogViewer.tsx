@@ -4,10 +4,11 @@ import { parse } from 'node-html-parser';
 import React from "react";
 import MermaidChart from "../components/Mermaid";
 import dynamic from "next/dynamic";
+import { OutputData } from "@editorjs/editorjs";
 const anchorTargetRegex = /(?<=target=").*?(?=")/g;
 const anchorRelRegex = /(?<=rel=").*?(?=")/g;
 
-const BlogViewer = ({ content }: { content: any }) => {
+const BlogViewer = ({ content }: { content: OutputData }) => {
 
   const addPropertiesToAnchorTags = (
     htmlString: string,
