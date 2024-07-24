@@ -33,7 +33,7 @@ export default class SimpleImage implements BlockTool {
             wrapper: 'cdx-simple-image',
             imageHolder: 'cdx-simple-image__picture',
             caption: 'cdx-simple-image__caption',
-            alt: 'cdx-simple-image__caption',
+            alt: 'cdx-simple-image__alt',
         };
 
         this.nodes = {
@@ -75,7 +75,7 @@ export default class SimpleImage implements BlockTool {
             contentEditable: !this.readOnly,
             innerHTML: this.data.alt || '',
         });
-        alt.dataset.placeholder = 'Enter a Alt text for image to improve SEO';
+        alt.dataset.placeholder = 'Enter a Alt text for image ';
 
         wrapper.appendChild(loader);
 
@@ -108,9 +108,9 @@ export default class SimpleImage implements BlockTool {
 
     save(blockContent: HTMLElement): SimpleImageData {
         const image = blockContent.querySelector('img') as HTMLImageElement;
-        const caption = blockContent.querySelector('.' + this.CSS.caption);
-        const alt = blockContent.querySelector('.' + this.CSS.alt); // Selector for alt
-
+        const caption = blockContent.querySelector('.'+this.CSS.caption);
+        const alt = blockContent.querySelector('.'+this.CSS.alt); // Selector for alt
+        console.log("founde alt ", alt)
         if (!image) {
             return this.data;
         }
@@ -130,6 +130,9 @@ export default class SimpleImage implements BlockTool {
             withBackground: {},
             stretched: {},
             caption: {
+                br: true,
+            },
+            alt: {
                 br: true,
             },
         };

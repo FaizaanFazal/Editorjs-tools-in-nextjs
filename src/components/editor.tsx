@@ -364,6 +364,7 @@ const CustomEditor = () => {
                             try {
                                 const outputData = await editor.save();
 
+                                console.log("save",outputData);
                                 editorDataOnChange(outputData);
                             } catch (error) {
                                 console.log('Saving failed: ', error);

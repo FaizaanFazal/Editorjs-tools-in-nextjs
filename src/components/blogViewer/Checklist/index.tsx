@@ -12,7 +12,7 @@ interface ChecklistProps {
 
 export const Checklist: React.FC<ChecklistProps> = ({ items, classes }) => {
   return (
-    <ul className={classes}>
+    <ul className={classes +" my-4 text-lg md:text-xl font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"}>
       {items.map((item, index) => (
         <li key={index} className="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
           <div className="flex items-center ps-3">

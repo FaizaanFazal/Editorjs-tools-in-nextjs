@@ -7,5 +7,5 @@ export const Paragraph = ({
   text: string;
   classes: string;
 }) => {
-  return <p className={classes}>{text}</p>;
+  return <p className={classes + "font-normal leading-[28px] md:leading-[32px] tracking-[-.003em] break-words text-lg md:text-xl"}>{text}</p>;
 };
