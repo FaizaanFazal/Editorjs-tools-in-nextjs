@@ -27,7 +27,7 @@ import { Quote } from '@/module/editor/quote/quote';
 import dynamic from 'next/dynamic';
 import CustomList from './customList';
 
-const BlogViewer = dynamic(() => import('@/app/editor/BlogViewer/BlogViewer'), { ssr: false });
+const BlogViewer = dynamic(() => import('@/components/blogViewer'), { ssr: false });
 
 const CustomEditor = () => {
     const [blogData, setBlogdata] = useState<OutputData | null>();
