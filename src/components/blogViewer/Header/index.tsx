@@ -6,11 +6,11 @@ export const Header = ({
   classes,
 }: {
   level: number;
-  text: string;
+  text: any;
   classes: string;
 }) => {
 
 
   const Tag = `h${level}` as keyof JSX.IntrinsicElements;
-  return <Tag className={`${classes} `} >{text}</Tag>;
+  return <Tag className={`${classes} font-bold `} >{text}</Tag>;
 };
