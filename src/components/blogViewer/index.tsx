@@ -207,8 +207,9 @@ const getAttributes = (element: HTMLElement) => {
 
       //baseurl issue on paste in editor
       case "linkTool":
+        console.log("link",block)
         return (
-          <LinkTool key={id} meta={data.meta!} classes={tailwindClasses} />
+          <LinkTool key={id} url={data?.link!} classes={tailwindClasses} />
         );
 
       case "table":

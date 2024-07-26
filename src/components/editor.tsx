@@ -146,6 +146,9 @@ const CustomEditor = () => {
                                 },
                                 linkTool: {
                                     class: LinkTool,
+                                    config:{
+                                        url:'/api/fetchUrl'
+                                    }
                                 },
                                 embed: {
                                     class: Embed,

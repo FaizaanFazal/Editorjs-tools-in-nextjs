@@ -1,3 +1,5 @@
+"use server";
+import { fetchUrl } from "@/lib/serverActions/fetchUrl";
 import React from "react";
 
 interface LinkToolMeta {
@@ -10,11 +12,20 @@ interface LinkToolMeta {
 }
 
 interface LinkToolProps {
-  meta: LinkToolMeta;
+  url: string;
   classes?: string;
 }
 
-export const LinkTool: React.FC<LinkToolProps> = ({ meta, classes }) => {
+interface MetaProps {
+  title: string;
+  description?: string;
+  image?: string;
+  url:string
+}
+export const LinkTool: React.FC<LinkToolProps> = async ({ url="", classes }) => {
+  const meta= await fetchUrl(url) as MetaProps
+
+
   return (
     <div className={classes}>
       <div className="flex justify-between items-center p-6 shadow-md gap-6">
@@ -24,15 +35,15 @@ export const LinkTool: React.FC<LinkToolProps> = ({ meta, classes }) => {
           <a
             className="text-lg md:text-xl text-blue-600 hover:text-blue-700 hover:underline underline-offset-4 w-fit"
             target="_blank"
-            href={meta?.url}
+            href={url}
             rel="noreferrer"
           >
-            {meta?.url}
+            {url}
           </a>
         </div>
         <div className="max-w-xs w-32 h-32 shrink-0 overflow-hidden border border-gray-200 rounded-lg">
           <img
-            src={meta?.image?.url}
+            src={meta?.image }
             loading="lazy"
             className="w-full h-full object-cover object-center"
             alt={meta?.title}
