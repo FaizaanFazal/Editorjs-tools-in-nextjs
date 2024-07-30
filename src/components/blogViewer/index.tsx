@@ -67,77 +67,78 @@ interface BlogViewerProps {
   };
 }
 
+
+export const getHeaderFontSize = (level: number) => {
+  const fontSizeMap: Record<number, string> = {
+    1: 'text-[44px]',
+    2: 'text-3xl',
+    3: 'text-2xl',
+    4: 'text-xl',
+    5: 'text-lg',
+  };
+  return fontSizeMap[level] || 'text-base';
+};
+
+export const getAlignmentClasses = (alignment: string | undefined | null) => {
+  const alignmentMap = {
+    left: 'text-left',
+    center: 'text-center',
+    right: 'text-right',
+    justify: 'text-justify',
+  };
+  return alignmentMap[alignment as 'left' | 'center' | 'right' | 'justify'] || 'text-left';
+};
+
+export const customSanitize = (text: string) => {
+  return text.replace(/\u00a0/g, ' ');
+};
+
+export const getAlertColorClasses = (alertType: string | undefined | null) => {
+  const colorClasses: Record<string, string> = {
+    primary: 'text-blue-800 bg-blue-50 border border-blue-300 dark:bg-blue-800 dark:text-blue-200 dark:border-blue-700',
+    secondary: 'text-gray-800 bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600',
+    info: 'text-blue-700 bg-blue-100 border border-blue-400 dark:bg-blue-700 dark:text-blue-300 dark:border-blue-600',
+    success: 'text-green-800 bg-green-50 border border-green-300 dark:bg-green-800 dark:text-green-200 dark:border-green-700',
+    warning: 'text-yellow-800 bg-yellow-50 border border-yellow-300 dark:bg-yellow-800 dark:text-yellow-200 dark:border-yellow-700',
+    danger: 'text-red-800 bg-red-50 border border-red-300 dark:bg-red-800 dark:text-red-200 dark:border-red-700',
+    light: 'text-gray-800 bg-gray-50 border border-gray-200 dark:bg-white dark:text-gray-800 dark:border-gray-400',
+    dark: 'text-white bg-gray-800 border border-gray-700 dark:bg-black dark:text-gray-300 dark:border-gray-900',
+  };
+  return colorClasses[alertType?.toLowerCase() || 'primary'];
+};
+
+export const parseHtml = (htmlString: string): React.ReactNode => {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(`<div>${htmlString}</div>`, 'text/html');
+  const container = doc.body.firstChild as HTMLElement;
+  return convertNodeToReact(container);
+};
+
+export const convertNodeToReact = (node: ChildNode | null): React.ReactNode => {
+  if (!node) return null;
+  if (node.nodeType === Node.TEXT_NODE) {
+    return node.textContent;
+  }
+  if (node.nodeType === Node.ELEMENT_NODE) {
+    const element = node as HTMLElement;
+    const children = Array.from(element.childNodes).map((childNode, index) =>
+      convertNodeToReact(childNode)
+    );
+    return React.createElement(element.tagName.toLowerCase(), { key: node.nodeName, ...getAttributes(element) }, children);
+  }
+  return null;
+};
+
+export const getAttributes = (element: HTMLElement) => {
+  const attrs: { [key: string]: string } = {};
+  for (let i = 0; i < element.attributes.length; i++) {
+    const attr = element.attributes[i];
+    attrs[attr.name] = attr.value;
+  }
+  return attrs;
+};
+
 const BlogViewer: React.FC<BlogViewerProps> = ({ content }) => {
-
-  const getHeaderFontSize = (level: number) => {
-    const fontSizeMap: Record<number, string> = {
-      1: 'text-[44px]',
-      2: 'text-3xl',
-      3: 'text-2xl',
-      4: 'text-xl',
-      5: 'text-lg',
-    };
-    return fontSizeMap[level] || 'text-base';
-  };
-
-  const getAlignmentClasses = (alignment: string | undefined | null) => {
-    const alignmentMap = {
-      left: 'text-left',
-      center: 'text-center',
-      right: 'text-right',
-      justify: 'text-justify',
-    };
-    return alignmentMap[alignment as 'left' | 'center' | 'right' | 'justify'] || 'text-left';
-  };
-
-  const customSanitize = (text: string) => {
-    return text.replace(/\u00a0/g, ' ');
-  };
-
-  const getAlertColorClasses = (alertType: string | undefined | null) => {
-    const colorClasses: Record<string, string> = {
-      primary: 'text-blue-800 bg-blue-50 border border-blue-300 dark:bg-blue-800 dark:text-blue-200 dark:border-blue-700',
-      secondary: 'text-gray-800 bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600',
-      info: 'text-blue-700 bg-blue-100 border border-blue-400 dark:bg-blue-700 dark:text-blue-300 dark:border-blue-600',
-      success: 'text-green-800 bg-green-50 border border-green-300 dark:bg-green-800 dark:text-green-200 dark:border-green-700',
-      warning: 'text-yellow-800 bg-yellow-50 border border-yellow-300 dark:bg-yellow-800 dark:text-yellow-200 dark:border-yellow-700',
-      danger: 'text-red-800 bg-red-50 border border-red-300 dark:bg-red-800 dark:text-red-200 dark:border-red-700',
-      light: 'text-gray-800 bg-gray-50 border border-gray-200 dark:bg-white dark:text-gray-800 dark:border-gray-400',
-      dark: 'text-white bg-gray-800 border border-gray-700 dark:bg-black dark:text-gray-300 dark:border-gray-900',
-    };
-    return colorClasses[alertType?.toLowerCase() || 'primary'];
-  };
-
-  const parseHtml = (htmlString: string): React.ReactNode => {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(`<div>${htmlString}</div>`, 'text/html');
-    const container = doc.body.firstChild as HTMLElement;
-    return convertNodeToReact(container);
-};
-const convertNodeToReact = (node: ChildNode | null): React.ReactNode => {
-    if (!node) return null;
-    if (node.nodeType === Node.TEXT_NODE) {
-        return node.textContent;
-    }
-    if (node.nodeType === Node.ELEMENT_NODE) {
-        const element = node as HTMLElement;
-        const children = Array.from(element.childNodes).map((childNode, index) =>
-            convertNodeToReact(childNode)
-        );
-        return React.createElement(element.tagName.toLowerCase(), { key: node.nodeName, ...getAttributes(element) }, children);
-    }
-    return null;
-};
-const getAttributes = (element: HTMLElement) => {
-    const attrs: { [key: string]: string } = {};
-    for (let i = 0; i < element.attributes.length; i++) {
-        const attr = element.attributes[i];
-        attrs[attr.name] = attr.value;
-    }
-    return attrs;
-};
-
-
   const renderBlock = (block: Block) => {
 
     const { type, data, id } = block;
@@ -164,6 +165,7 @@ const getAttributes = (element: HTMLElement) => {
         );
 
       case "quote":
+        console.log("quote",data.alignment)
         return (
           <Quote
             key={id}
@@ -205,9 +207,8 @@ const getAttributes = (element: HTMLElement) => {
           />
         );
 
-      //baseurl issue on paste in editor
       case "linkTool":
-        console.log("link",block)
+        console.log("link", block)
         return (
           <LinkTool key={id} url={data?.link!} classes={tailwindClasses} />
         );

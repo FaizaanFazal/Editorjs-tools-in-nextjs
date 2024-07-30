@@ -24,6 +24,7 @@ import { LayoutBlockTool, LayoutBlockToolConfig } from 'editorjs-layout';
 import SimpleImage from '@/module/editor/simple-image/simple_image';
 import Header from '@/module/editor/header/header';
 import { Quote } from '@/module/editor/quote/quote';
+// import Quote from '@editorjs/quote';
 import dynamic from 'next/dynamic';
 import CustomList from './customList';
 
@@ -156,6 +157,7 @@ const CustomEditor = () => {
                                     tunes: ['textVariant']
                                 },
                                 mermaid: MermaidTool,
+                                
                                 AnyButton: {
                                     class: AnyButton,
                                     inlineToolbar: false,
@@ -295,8 +297,7 @@ const CustomEditor = () => {
                             checklist: {
                                 class: Checklist,
                                 inlineToolbar: true,
-                            },
-                            // image: SimpleImage,
+                            },           
                             linkTool: {
                                 class: LinkTool,
                                 config:{

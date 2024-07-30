@@ -38,6 +38,7 @@ class Quote implements BlockTool {
     private _CSS: { block: any; settingsButton: any; settingsButtonActive: any; wrapper: string; alignment: { left: string; center: string; right: string; justify: string; }; };
     private currentAlignmentClass: string | null = null;
     private _element: HTMLElement;
+    
 
     static get isReadOnlySupported(): boolean {
         return true;
@@ -57,7 +58,6 @@ class Quote implements BlockTool {
     static get enableLineBreaks(): boolean {
         return true;
     }
-
     static get DEFAULT_QUOTE_PLACEHOLDER(): string {
         return 'Enter a quote';
     }
@@ -121,7 +121,7 @@ class Quote implements BlockTool {
 
     constructor({ data, config, api, readOnly }: { data: QuoteData; config: QuoteConfig; api: object; readOnly: boolean; }) {
         const { ALIGNMENTS, DEFAULT_ALIGNMENT } = Quote;
-
+   
         this.api = api;
         this.readOnly = readOnly;
 
@@ -152,8 +152,10 @@ class Quote implements BlockTool {
     }
 
     getTag(): HTMLElement {
+       
         const container = this._make('blockquote', [this.CSS.baseClass, this.CSS.wrapper]);
         container.classList.add(this._CSS.alignment[this.data.alignment]);
+
         this.currentAlignmentClass =this._CSS.alignment[this.data.alignment];
         const quote = this._make('div', [this.CSS.input, this.CSS.text], {
             contentEditable: !this.readOnly,
@@ -218,13 +220,27 @@ class Quote implements BlockTool {
     
     
     _toggleTune(tune: 'center' | 'left' | 'right') {
+   
         this._toggleAlignmentClass(tune);
     }
-    private _toggleAlignmentClass(tune: any) {
-        this.data.alignment = tune;
+
+    private _toggleAlignmentClass(tune: 'center' | 'left' | 'right') {
+    this.data.alignment = tune;
+    const blockquote = this._element;
+    if (this.currentAlignmentClass) {
+        blockquote.classList.remove(this.currentAlignmentClass);
     }
+
+    // Add the new alignment class
+    const newAlignmentClass = this._CSS.alignment[tune];
+    blockquote.classList.add(this._CSS.alignment[this.data.alignment]);
+    
+    // Update the current alignment class tracker
+    this.currentAlignmentClass = newAlignmentClass;
+}
     
     _make(tagName: string, classNames: string[] | string = [], attributes: object = {}): Element {
+       
         const el = document.createElement(tagName);
     
         if (Array.isArray(classNames)) {
