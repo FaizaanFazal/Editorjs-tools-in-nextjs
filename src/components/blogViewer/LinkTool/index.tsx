@@ -30,10 +30,10 @@ export const LinkTool: React.FC<LinkToolProps> = async ({ url="", classes }) => 
     <div className={classes}>
       <div className="flex justify-between items-center p-6 shadow-md gap-6">
         <div className="flex-1 gap-2 flex flex-col justify-center">
-          <h2 className="text-xl font-bold text-gray-800">{meta?.title}</h2>
-          <p className="text-lg md:text-xl text-gray-600">{meta?.description}</p>
+          <h2 className="text-xl font-bold text-gray-800 dark:text-white">{meta?.title}</h2>
+          <p className="text-lg md:text-xl text-gray-600 dark:text-white">{meta?.description}</p>
           <a
-            className="text-lg md:text-xl text-blue-600 hover:text-blue-700 hover:underline underline-offset-4 w-fit"
+            className="text-lg md:text-xl dark:text-blue-400 text-blue-600 hover:text-blue-700 hover:underline underline-offset-4 w-fit"
             target="_blank"
             href={url}
             rel="noreferrer"
