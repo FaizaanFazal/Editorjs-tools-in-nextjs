@@ -2,11 +2,9 @@
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-export  async function GET(req: NextApiRequest, res: NextApiResponse) {
- 
-}
 
 export async function fetchUrl(url:string) {
+  console.log("serrver action------------------------------------")
     if (!url || typeof url !== 'string') {
       return ("error");
     }
