@@ -32,7 +32,7 @@ export const LinkTool: React.FC<LinkToolProps> = async ({ url="", classes }) => 
 
   return (
     <div className={classes}>
-      <div className="flex justify-between items-center p-6 shadow-md gap-6">
+      <div className="flex justify-between items-start p-6 shadow-md gap-4">
         <div className="flex-1 gap-2 flex flex-col justify-center">
           <h2 className="text-[17px] font-bold text-gray-800 dark:text-white">{meta?.title}</h2>
           <p className="text-[15px] md:text-xl text-gray-600 dark:text-white">{meta?.description}</p>
@@ -45,7 +45,7 @@ export const LinkTool: React.FC<LinkToolProps> = async ({ url="", classes }) => 
             {extractDomain(url)}
           </a>
         </div>
-        <div className="max-w-xs w-32 h-32 shrink-0 overflow-hidden border border-gray-200 rounded-lg">
+        <div className="max-w-xs w-16 h-16 shrink-0 overflow-hidden border border-gray-200 rounded-lg">
           <img
             src={meta?.image }
             loading="lazy"

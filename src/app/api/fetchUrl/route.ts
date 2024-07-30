@@ -39,11 +39,10 @@ export async function GET(request: NextRequest ) {
       console.log("des",  description )
       console.log("image", image )
     //   return Response.json({ title, description, image })
-      const data={ title, description, image}
+      const data={ title, description, image:{"url":image} ,url}
       return NextResponse.json({ success: true, meta: data, link: url });
       } catch (error: any) {
         return NextResponse.json({ success: false, error: "Couldn't fetch the link data" }, { status: 500 });
       }
 
- 
 };
