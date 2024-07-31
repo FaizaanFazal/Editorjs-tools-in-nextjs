@@ -165,13 +165,13 @@ const BlogViewer: React.FC<BlogViewerProps> = ({ content }) => {
         );
 
       case "quote":
-        console.log("quote",data.alignment)
         return (
           <Quote
             key={id}
             text={data.text!}
             caption={data.caption}
-            classes={`${tailwindClasses} ${getAlignmentClasses(data.alignment!)}`}
+            classes={`${tailwindClasses}`}
+            authorAlignment={`${getAlignmentClasses(data.alignment!)}`}
           />
         );
 

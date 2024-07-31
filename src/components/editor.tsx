@@ -148,7 +148,7 @@ const CustomEditor = () => {
                                 linkTool: {
                                     class: LinkTool,
                                     config:{
-                                        endpoint:'http://localhost:3001/api/fetchUrl'
+                                        endpoint:`/api/fetchUrl`
                                     }
                                 },
                                 embed: {
@@ -301,7 +301,7 @@ const CustomEditor = () => {
                             linkTool: {
                                 class: LinkTool,
                                 config:{
-                                    endpoint:'http://localhost:3001/api/fetchUrl'
+                                    endpoint:`/api/fetchUrl`
                                 }
 
                             },

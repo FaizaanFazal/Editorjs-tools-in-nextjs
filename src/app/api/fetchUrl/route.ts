@@ -33,7 +33,16 @@ export async function GET(request: NextRequest ) {
         // Fallback to link tag with rel="icon"
         const iconLinkRegex = /<link\b[^>]*\brel\s*=\s*['"]icon['"][^>]*\bhref\s*=\s*['"]([^'"]*)['"][^>]*>/i;
         const iconLinkMatch = html.match(iconLinkRegex);
-        image = iconLinkMatch ? url+iconLinkMatch[1] : 'image not found';
+        if (iconLinkMatch) {
+          let hrefValue = iconLinkMatch[1];
+          // Check if hrefValue starts with "http" or "https"
+          if (!/^https?:\/\//i.test(hrefValue)) {
+            hrefValue = url+iconLinkMatch[1]
+          }
+          image = hrefValue;
+        } else {
+          image = 'image not found';
+        }
       }
       console.log("title", title )
       console.log("des",  description )

@@ -227,15 +227,18 @@ class Quote implements BlockTool {
     private _toggleAlignmentClass(tune: 'center' | 'left' | 'right') {
     this.data.alignment = tune;
     const blockquote = this._element;
-    if (this.currentAlignmentClass) {
-        blockquote.classList.remove(this.currentAlignmentClass);
-    }
+     const captionDiv = blockquote.querySelector('.cdx-quote__caption');
+     if (captionDiv) {
+         if (this.currentAlignmentClass) {
+             captionDiv.classList.remove(this.currentAlignmentClass);
+         }
+         const newAlignmentClass = this._CSS.alignment[tune];
+         captionDiv.classList.add(newAlignmentClass);
+         this.currentAlignmentClass = newAlignmentClass;
+     }
 
-    // Add the new alignment class
     const newAlignmentClass = this._CSS.alignment[tune];
     blockquote.classList.add(this._CSS.alignment[this.data.alignment]);
-    
-    // Update the current alignment class tracker
     this.currentAlignmentClass = newAlignmentClass;
 }
     

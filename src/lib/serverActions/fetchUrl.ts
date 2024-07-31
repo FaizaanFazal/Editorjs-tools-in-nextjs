@@ -20,13 +20,24 @@ export async function fetchUrl(url:string) {
     let image = '';
     const imageMetaRegex = /<meta\s+property\s*=\s*['"]og:image['"][^>]*content\s*=\s*['"]([^'"]*)['"][^>]*>/i;
     const imageMetaMatch = html.match(imageMetaRegex);
+    console.log("1wst",imageMetaMatch)
     if (imageMetaMatch) {
       image = imageMetaMatch[1];
+      console.log("image",image)
     } else {
       // Fallback to link tag with rel="icon"
       const iconLinkRegex = /<link\b[^>]*\brel\s*=\s*['"]icon['"][^>]*\bhref\s*=\s*['"]([^'"]*)['"][^>]*>/i;
       const iconLinkMatch = html.match(iconLinkRegex);
-      image = iconLinkMatch ? url+iconLinkMatch[1] : 'image not found';
+      if (iconLinkMatch) {
+        let hrefValue = iconLinkMatch[1];
+        // Check if hrefValue starts with "http" or "https"
+        if (!/^https?:\/\//i.test(hrefValue)) {
+          hrefValue = url+iconLinkMatch[1]
+        }
+        image = hrefValue;
+      } else {
+        image = 'image not found';
+      }
     }
 
      return({ title, description, image })
