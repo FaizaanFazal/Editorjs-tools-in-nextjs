@@ -9,6 +9,7 @@ interface ImageProps {
   withBorder?: boolean;
   stretched?: boolean;
   classes?: string;
+  alignment?: string;
 }
 
 export const Image: React.FC<ImageProps> = ({
@@ -18,7 +19,8 @@ export const Image: React.FC<ImageProps> = ({
   stretched,
   withBorder,
   caption,
-  classes }) => {
+  classes,
+  alignment }) => {
 
     const containerClasses = `
     ${withBackground ? 'bg-gray-100 dark:bg-gray-700' : ''}
@@ -30,7 +32,7 @@ export const Image: React.FC<ImageProps> = ({
     <div className={`${classes}`}>
       <img src={src} loading="lazy" alt={alt}  className={`${containerClasses.trim()}`}/>
       {caption && (
-        <p className="mt-1 text-lg md:text-xl text-gray-500 dark:text-gray-300">
+        <p className={`${alignment} mt-1 text-lg md:text-xl text-gray-500 dark:text-gray-300`}>
           {caption}
         </p>
       )}

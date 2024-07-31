@@ -38,7 +38,7 @@ class Quote implements BlockTool {
     private _CSS: { block: any; settingsButton: any; settingsButtonActive: any; wrapper: string; alignment: { left: string; center: string; right: string; justify: string; }; };
     private currentAlignmentClass: string | null = null;
     private _element: HTMLElement;
-    
+
 
     static get isReadOnlySupported(): boolean {
         return true;
@@ -121,7 +121,7 @@ class Quote implements BlockTool {
 
     constructor({ data, config, api, readOnly }: { data: QuoteData; config: QuoteConfig; api: object; readOnly: boolean; }) {
         const { ALIGNMENTS, DEFAULT_ALIGNMENT } = Quote;
-   
+
         this.api = api;
         this.readOnly = readOnly;
 
@@ -135,7 +135,7 @@ class Quote implements BlockTool {
                 config.defaultAlignment ||
                 DEFAULT_ALIGNMENT,
         };
-        
+
         this._CSS = {
             block: this.api.styles.block,
             settingsButton: this.api.styles.settingsButton,
@@ -152,11 +152,11 @@ class Quote implements BlockTool {
     }
 
     getTag(): HTMLElement {
-       
+
         const container = this._make('blockquote', [this.CSS.baseClass, this.CSS.wrapper]);
         container.classList.add(this._CSS.alignment[this.data.alignment]);
 
-        this.currentAlignmentClass =this._CSS.alignment[this.data.alignment];
+        this.currentAlignmentClass = this._CSS.alignment[this.data.alignment];
         const quote = this._make('div', [this.CSS.input, this.CSS.text], {
             contentEditable: !this.readOnly,
             innerHTML: this.data.text,
@@ -208,7 +208,7 @@ class Quote implements BlockTool {
         const capitalize = (str: string): string => {
             return str[0].toUpperCase() + str.substr(1);
         };
-       
+
         return this.settings.map(item => ({
             icon: item.icon,
             isActive: this.data.alignment === item.name,
@@ -217,46 +217,46 @@ class Quote implements BlockTool {
             onActivate: () => this._toggleTune(item.name as 'center' | 'left' | 'right'), // Ensure item.name is correctly typed
         }));
     };
-    
-    
+
+
     _toggleTune(tune: 'center' | 'left' | 'right') {
-   
+
         this._toggleAlignmentClass(tune);
     }
 
     private _toggleAlignmentClass(tune: 'center' | 'left' | 'right') {
-    this.data.alignment = tune;
-    const blockquote = this._element;
-     const captionDiv = blockquote.querySelector('.cdx-quote__caption');
-     if (captionDiv) {
-         if (this.currentAlignmentClass) {
-             captionDiv.classList.remove(this.currentAlignmentClass);
-         }
-         const newAlignmentClass = this._CSS.alignment[tune];
-         captionDiv.classList.add(newAlignmentClass);
-         this.currentAlignmentClass = newAlignmentClass;
-     }
+        this.data.alignment = tune;
+        const blockquote = this._element;
+        const captionDiv = blockquote.querySelector('.cdx-quote__caption');
+        if (captionDiv) {
+            if (this.currentAlignmentClass) {
+                captionDiv.classList.remove(this.currentAlignmentClass);
+            }
+            const newAlignmentClass = this._CSS.alignment[tune];
+            captionDiv.classList.add(newAlignmentClass);
+            this.currentAlignmentClass = newAlignmentClass;
+        }
 
-    const newAlignmentClass = this._CSS.alignment[tune];
-    blockquote.classList.add(this._CSS.alignment[this.data.alignment]);
-    this.currentAlignmentClass = newAlignmentClass;
-}
-    
+        const newAlignmentClass = this._CSS.alignment[tune];
+        blockquote.classList.add(this._CSS.alignment[this.data.alignment]);
+        this.currentAlignmentClass = newAlignmentClass;
+    }
+
     _make(tagName: string, classNames: string[] | string = [], attributes: object = {}): Element {
-       
+
         const el = document.createElement(tagName);
-    
+
         if (Array.isArray(classNames)) {
             el.classList.add(...classNames);
         } else if (classNames) {
             el.classList.add(classNames);
         }
-    
+
         for (const attrName in attributes) {
             if (Object.prototype.hasOwnProperty.call(attributes, attrName)) {
-              (el as any)[attrName] = (attributes as any)[attrName];
+                (el as any)[attrName] = (attributes as any)[attrName];
             }
-          }
+        }
         return el;
     }
 }

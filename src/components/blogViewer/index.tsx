@@ -241,6 +241,7 @@ const BlogViewer: React.FC<BlogViewerProps> = ({ content }) => {
             withBackground={data?.withBackground}
             withBorder={data?.withBorder}
             classes={tailwindClasses}
+            alignment={getAlignmentClasses(data.alignment!)}
           />
         );
 

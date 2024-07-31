@@ -1,14 +1,12 @@
-import { NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
 
 
 export async function GET(request: NextRequest ) {
     const searchParams = request.nextUrl.searchParams;
     const url = searchParams.get("url");
-    console.log("this url",url)
     try {
         const response = await fetch(url as string);
-        console.log(response)
+
         if (response.status!==200) {
           console.log('Failed to fetch data');
         }
@@ -44,9 +42,6 @@ export async function GET(request: NextRequest ) {
           image = 'image not found';
         }
       }
-      console.log("title", title )
-      console.log("des",  description )
-      console.log("image", image )
     //   return Response.json({ title, description, image })
       const data={ title, description, image:{"url":image} ,url}
       return NextResponse.json({ success: true, meta: data, link: url });

@@ -9,27 +9,85 @@ interface SimpleImageData {
     withBorder: boolean;
     withBackground: boolean;
     stretched: boolean;
+    alignment: 'center' | 'left' | 'right';
+}
 
+interface ImageConfig {
+    captionPlaceholder: string;
+    defaultAlignment: 'center' | 'left' | 'right'; // Define default alignment type
 }
 
 export default class SimpleImage implements BlockTool {
     private api: any;
     private readOnly: boolean;
     private blockIndex: number;
-    private CSS: any;
+    private _CSS!: { block: any; settingsButton: any; settingsButtonActive: any; wrapper: string; alignment: { left: string; center: string; right: string; justify: string; }; };
+    private CSS: {
+        baseClass: any; wrapper: string; imageHolder: any; caption: string; alt: string; loading: any; input: any; settingsButton: any; settingsButtonActive: any;
+    };
     private nodes: any;
+    private currentAlignmentClass: string | null = null;
     private tunes: any[];
+    private _element: HTMLElement;
     private _data: SimpleImageData; // Rename _data here
+    // inlineToolSettings: { name: string; icon: string; }[];
 
-    constructor({ data, api, readOnly }: { data: SimpleImageData, config?: any, api: any, readOnly: boolean }) {
+    constructor({ data,config, api, readOnly }: { data: SimpleImageData, config: ImageConfig, api: any, readOnly: boolean }) {
         this.api = api;
         this.readOnly = readOnly;
         this.blockIndex = this.api.blocks.getCurrentBlockIndex() + 1;
+        const { ALIGNMENTS, DEFAULT_ALIGNMENT } = SimpleImage;
+        // this.inlineToolSettings = [
+        //     {
+        //         name: "left",
+        //         icon: `<svg xmlns="http://www.w3.org/2000/svg" id="Layer" enable-background="new 0 0 64 64" height="20" viewBox="0 0 64 64" width="20"><path d="m54 8h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m54 52h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m10 23h28c1.104 0 2-.896 2-2s-.896-2-2-2h-28c-1.104 0-2 .896-2 2s.896 2 2 2z"/><path d="m54 30h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m10 45h28c1.104 0 2-.896 2-2s-.896-2-2-2h-28c-1.104 0-2 .896-2 2s.896 2 2 2z"/></svg>`,
+        //     },
+        //     {
+        //         name: "center",
+        //         icon: `<svg xmlns="http://www.w3.org/2000/svg" id="Layer" enable-background="new 0 0 64 64" height="20" viewBox="0 0 64 64" width="20"><path d="m54 8h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m54 52h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m46 23c1.104 0 2-.896 2-2s-.896-2-2-2h-28c-1.104 0-2 .896-2 2s.896 2 2 2zm-24 10h28c1.104 0 2-.896 2-2s-.896-2-2-2h-28c-1.104 0-2 .896-2 2s.896 2 2 2z"/><path d="m54 30h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m46 45c1.104 0 2-.896 2-2s-.896-2-2-2h-28c-1.104 0-2 .896-2 2s.896 2 2 2zm-24 10h28c1.104 0 2-.896 2-2s-.896-2-2-2h-28c-1.104 0-2 .896-2 2s.896 2 2 2z"/></svg>`,
+        //     },
+        //     {
+        //         name: "right",
+        //         icon: `<svg xmlns="http://www.w3.org/2000/svg" id="Layer" enable-background="new 0 0 64 64" height="20" viewBox="0 0 64 64" width="20"><path d="m54 8h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m54 52h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m38 23h6c1.104 0 2-.896 2-2s-.896-2-2-2h-6c-1.104 0-2 .896-2 2s.896 2 2 2zm0 10h12c1.104 0 2-.896 2-2s-.896-2-2-2h-12c-1.104 0-2 .896-2 2s.896 2 2 2zm16-10h6c1.104 0 2-.896 2-2s-.896-2-2-2h-6c-1.104 0-2 .896-2 2s.896 2 2 2zm0 10h12c1.104 0 2-.896 2-2s-.896-2-2-2h-12c-1.104 0-2 .896-2 2s.896 2 2 2z"/></svg>`,
+        //     },
+        //     {
+        //         name: "justify",
+        //         icon: `<svg xmlns="http://www.w3.org/2000/svg" id="Layer" enable-background="new 0 0 64 64" height="20" viewBox="0 0 64 64" width="20"><path d="m54 8h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m54 52h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m10 23h44c1.104 0 2-.896 2-2s-.896-2-2-2h-44c-1.104 0-2 .896-2 2s.896 2 2 2zm0 10h44c1.104 0 2-.896 2-2s-.896-2-2-2h-44c-1.104 0-2 .896-2 2s.896 2 2 2zm0 10h44c1.104 0 2-.896 2-2s-.896-2-2-2h-44c-1.104 0-2 .896-2 2s.896 2 2 2zm0 10h44c1.104 0 2-.896 2-2s-.896-2-2-2h-44c-1.104 0-2 .896-2 2s.896 2 2 2z"/></svg>`,
+        //     },
+        // ];
+        this.tunes = [
+            { name: 'withBorder', label: 'Add Border', icon: IconAddBorder },
+            { name: 'stretched', label: 'Stretch Image', icon: IconStretch },
+            { name: 'withBackground', label: 'Add Background', icon: IconAddBackground },
+            { name: "left", icon: `<svg xmlns="http://www.w3.org/2000/svg" id="Layer" enable-background="new 0 0 64 64" height="20" viewBox="0 0 64 64" width="20"><path d="m54 8h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m54 52h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m10 23h28c1.104 0 2-.896 2-2s-.896-2-2-2h-28c-1.104 0-2 .896-2 2s.896 2 2 2z"/><path d="m54 30h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m10 45h28c1.104 0 2-.896 2-2s-.896-2-2-2h-28c-1.104 0-2 .896-2 2s.896 2 2 2z"/></svg>`, },
+            { name: "center", icon: `<svg xmlns="http://www.w3.org/2000/svg" id="Layer" enable-background="new 0 0 64 64" height="20" viewBox="0 0 64 64" width="20"><path d="m54 8h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m54 52h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m46 23c1.104 0 2-.896 2-2s-.896-2-2-2h-28c-1.104 0-2 .896-2 2s.896 2 2 2zm-24 10h28c1.104 0 2-.896 2-2s-.896-2-2-2h-28c-1.104 0-2 .896-2 2s.896 2 2 2z"/><path d="m54 30h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m46 45c1.104 0 2-.896 2-2s-.896-2-2-2h-28c-1.104 0-2 .896-2 2s.896 2 2 2zm-24 10h28c1.104 0 2-.896 2-2s-.896-2-2-2h-28c-1.104 0-2 .896-2 2s.896 2 2 2z"/></svg>`, },
+            { name: "right", icon: `<svg xmlns="http://www.w3.org/2000/svg" id="Layer" enable-background="new 0 0 64 64" height="20" viewBox="0 0 64 64" width="20"><path d="m54 8h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m54 52h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m38 23h6c1.104 0 2-.896 2-2s-.896-2-2-2h-6c-1.104 0-2 .896-2 2s.896 2 2 2zm0 10h12c1.104 0 2-.896 2-2s-.896-2-2-2h-12c-1.104 0-2 .896-2 2s.896 2 2 2zm16-10h6c1.104 0 2-.896 2-2s-.896-2-2-2h-6c-1.104 0-2 .896-2 2s.896 2 2 2zm0 10h12c1.104 0 2-.896 2-2s-.896-2-2-2h-12c-1.104 0-2 .896-2 2s.896 2 2 2z"/></svg>`, },
+            { name: "justify", icon: `<svg xmlns="http://www.w3.org/2000/svg" id="Layer" enable-background="new 0 0 64 64" height="20" viewBox="0 0 64 64" width="20"><path d="m54 8h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m54 52h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m10 23h44c1.104 0 2-.896 2-2s-.896-2-2-2h-44c-1.104 0-2 .896-2 2s.896 2 2 2zm0 10h44c1.104 0 2-.896 2-2s-.896-2-2-2h-44c-1.104 0-2 .896-2 2s.896 2 2 2zm0 10h44c1.104 0 2-.896 2-2s-.896-2-2-2h-44c-1.104 0-2 .896-2 2s.896 2 2 2zm0 10h44c1.104 0 2-.896 2-2s-.896-2-2-2h-44c-1.104 0-2 .896-2 2s.896 2 2 2z"/></svg>`, },
+        ];
 
+        /**
+         * Styles
+         *
+         * @type {object}
+         */
+        this._CSS = {
+            block: this.api.styles.block,
+            settingsButton: this.api.styles.settingsButton,
+            settingsButtonActive: this.api.styles.settingsButtonActive,
+            wrapper: "ce-header",
+            alignment: {
+                left: "ce-header--left",
+                center: "ce-header--center",
+                right: "ce-header--right",
+                justify: "ce-header--justify",
+            },
+        };
         this.CSS = {
             baseClass: this.api.styles.block,
             loading: this.api.styles.loader,
             input: this.api.styles.input,
+            settingsButton: this.api.styles.settingsButton,
+            settingsButtonActive: this.api.styles.settingsButtonActive,
             wrapper: 'cdx-simple-image',
             imageHolder: 'cdx-simple-image__picture',
             caption: 'cdx-simple-image__caption',
@@ -45,19 +103,19 @@ export default class SimpleImage implements BlockTool {
         };
 
         this._data = {  // Initialize _data here
-            url: data.url || '',
-            caption: data.caption || '',
-            alt: data.alt || '',
+            url: data?.url || '',
+            caption: data?.caption || '',
+            alt: data?.alt || '',
+            alignment: Object.values(ALIGNMENTS).includes(data.alignment) && data.alignment ||
+                config.defaultAlignment ||
+                DEFAULT_ALIGNMENT,
             withBorder: data.withBorder !== undefined ? data.withBorder : false,
             withBackground: data.withBackground !== undefined ? data.withBackground : false,
             stretched: data.stretched !== undefined ? data.stretched : false,
         };
 
-        this.tunes = [
-            { name: 'withBorder', label: 'Add Border', icon: IconAddBorder },
-            { name: 'stretched', label: 'Stretch Image', icon: IconStretch },
-            { name: 'withBackground', label: 'Add Background', icon: IconAddBackground },
-        ];
+
+        this._element = this.render();
     }
 
     render(): HTMLElement {
@@ -65,6 +123,7 @@ export default class SimpleImage implements BlockTool {
         const loader = this._make('div', this.CSS.loading);
         const imageHolder = this._make('div', this.CSS.imageHolder);
         const image = this._make('img') as HTMLImageElement;
+        this.currentAlignmentClass = this._CSS.alignment[this.data.alignment];
         const caption = this._make('div', [this.CSS.input, this.CSS.caption], {
             contentEditable: !this.readOnly,
             innerHTML: this.data.caption || '',
@@ -108,15 +167,14 @@ export default class SimpleImage implements BlockTool {
 
     save(blockContent: HTMLElement): SimpleImageData {
         const image = blockContent.querySelector('img') as HTMLImageElement;
-        const caption = blockContent.querySelector('.'+this.CSS.caption);
-        const alt = blockContent.querySelector('.'+this.CSS.alt); // Selector for alt
-        console.log("founde alt ", alt)
+        const caption = blockContent.querySelector('.' + this.CSS.caption);
+        const alt = blockContent.querySelector('.' + this.CSS.alt); // Selector for alt
         if (!image) {
             return this.data;
         }
 
         return Object.assign(this.data, {
-            url: image.src,
+            url: image?.src,
             caption: caption?.innerHTML || "",
             alt: alt?.innerHTML || "", // alt field
         });
@@ -129,6 +187,7 @@ export default class SimpleImage implements BlockTool {
             withBorder: {},
             withBackground: {},
             stretched: {},
+            alignment: {},
             caption: {
                 br: true,
             },
@@ -154,6 +213,7 @@ export default class SimpleImage implements BlockTool {
                         url: event.target.result as string,
                         caption: file.name,
                         alt: file.name,
+                        alignment: 'left',
                         withBorder: false,
                         withBackground: false,
                         stretched: false,
@@ -174,11 +234,11 @@ export default class SimpleImage implements BlockTool {
         switch (event.type) {
             case 'tag': {
                 const img = event.detail.data;
-
                 this.data = {
                     url: img.src,
                     caption: '',
                     alt: '',
+                    alignment: 'left',
                     withBorder: false,
                     withBackground: false,
                     stretched: false,
@@ -193,6 +253,7 @@ export default class SimpleImage implements BlockTool {
                     url: text,
                     caption: '',
                     alt: '',
+                    alignment: 'left',
                     withBorder: false,
                     withBackground: false,
                     stretched: false,
@@ -254,6 +315,44 @@ export default class SimpleImage implements BlockTool {
         }))
     }
 
+    // renderSettings() {
+    //     const holder = document.createElement("DIV");
+
+    //     this.inlineToolSettings
+    //         .map((tune) => {
+    //             /**
+    //              * buttonのdomを作成して、alignのtoggleをactiveに設定する
+    //              * @type {HTMLDivElement}
+    //              */
+    //             const button = document.createElement("div");
+    //             button.classList.add(this._CSS.settingsButton);
+    //             button.innerHTML = tune.icon;
+
+    //             button.classList.toggle(this.CSS.settingsButtonActive, tune.name === this.data.alignment);
+
+    //             holder.appendChild(button);
+
+    //             return button;
+    //         })
+    //         .forEach((element, index, elements) => {
+    //             element.addEventListener("click", () => {
+    //                 this._toggleTune(this.inlineToolSettings[index].name as keyof SimpleImageData);
+
+    //                 elements.forEach((el, i) => {
+    //                     const { name } = this.inlineToolSettings[i];
+    //                     const alignmentName = name as keyof typeof this._CSS.alignment;
+    //                     el.classList.toggle(this.CSS.settingsButtonActive, name === this.data.alignment);
+    //                     //headerのdivにalignmentのclassをつける。
+    //                     this._element.classList.toggle(this._CSS.alignment[alignmentName], alignmentName === this.data.alignment);
+    //                 });
+    //             });
+    //         });
+
+
+
+    //     return holder;
+    // }
+
     private _make(tagName: string, classNames: string[] | null = null, attributes: Record<string, any> = {}): HTMLElement {
         const el = document.createElement(tagName);
         if (Array.isArray(classNames)) {
@@ -271,19 +370,53 @@ export default class SimpleImage implements BlockTool {
     }
 
 
-    private _toggleTune(tune: keyof SimpleImageData) {
-        const property = this.data[tune] as boolean;
-        //@ts-expect-error: TypeScript is expecting a certain type (never) for the sanitize property, but it's receiving a different type (boolean) instead.
-        this.data[tune] = !property;
-        this._acceptTuneView();
+    private _toggleTune(tune: keyof SimpleImageData | 'center' | 'left' | 'right') {
+        if (tune === 'center' || tune === 'left' || tune === 'right') {
+            this._toggleAlignmentClass(tune);
+        }
+        else {
+            const property = this.data[tune] as boolean;
+            //@ts-expect-error: TypeScript is expecting a certain type (never) for the sanitize property, but it's receiving a different type (boolean) instead.
+            this.data[tune] = !property;
+            this._acceptTuneView();
+        }
+
     }
 
+    private _toggleAlignmentClass(tune: 'center' | 'left' | 'right') {
+        this.data.alignment = tune;
+         const captionDiv = this.nodes.caption;
+         console.log("found caption " ,captionDiv)
+         if (captionDiv) {
+             if (this.currentAlignmentClass) {
+                 captionDiv.classList.remove(this.currentAlignmentClass);
+             }
+             const newAlignmentClass = this._CSS.alignment[tune];
+             console.log("mnew alignment calss",newAlignmentClass)
+             captionDiv.classList.add(newAlignmentClass);
+             this.currentAlignmentClass = newAlignmentClass;
+         }
+    
+        const newAlignmentClass = this._CSS.alignment[tune];
+        // imgDiv.classList.add(this._CSS.alignment[this.data.alignment]);
+        this.currentAlignmentClass = newAlignmentClass;
+        
+    }
 
-
-
+    static get ALIGNMENTS() {
+        return {
+            left: "left",
+            center: "center",
+            right: "right",
+            justify: "justify",
+        };
+    }
+    static get DEFAULT_ALIGNMENT() {
+        return SimpleImage.ALIGNMENTS.left;
+    }
 
     private _acceptTuneView() {
-        const { withBorder, withBackground, stretched } = this.data;
+        const { withBorder, withBackground, stretched, alignment } = this.data;
 
         if (withBorder !== undefined) {
             this.nodes.imageHolder.classList.toggle(
@@ -296,6 +429,12 @@ export default class SimpleImage implements BlockTool {
             this.nodes.imageHolder.classList.toggle(
                 `${this.CSS.imageHolder}--withBackground`,
                 withBackground
+            );
+        }
+        if (alignment !== undefined) {
+            this.nodes.imageHolder.classList.toggle(
+                `${this._CSS.alignment[this._data.alignment as keyof typeof this._CSS.alignment]}`,
+
             );
         }
 

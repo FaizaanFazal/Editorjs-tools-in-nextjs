@@ -20,10 +20,10 @@ export async function fetchUrl(url:string) {
     let image = '';
     const imageMetaRegex = /<meta\s+property\s*=\s*['"]og:image['"][^>]*content\s*=\s*['"]([^'"]*)['"][^>]*>/i;
     const imageMetaMatch = html.match(imageMetaRegex);
-    console.log("1wst",imageMetaMatch)
+
     if (imageMetaMatch) {
       image = imageMetaMatch[1];
-      console.log("image",image)
+     
     } else {
       // Fallback to link tag with rel="icon"
       const iconLinkRegex = /<link\b[^>]*\brel\s*=\s*['"]icon['"][^>]*\bhref\s*=\s*['"]([^'"]*)['"][^>]*>/i;
