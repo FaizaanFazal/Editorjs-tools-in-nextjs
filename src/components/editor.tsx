@@ -9,7 +9,8 @@ import Checklist from '@editorjs/checklist';
 import LinkTool from '@editorjs/link';
 import Embed from '@editorjs/embed';
 import MermaidTool from 'editorjs-mermaid';
-import Table from 'editorjs-table';
+// import Table from 'editorjs-table';
+import {Table} from '@/module/editor/table/plugin';
 import AnyButton from 'editorjs-button';
 import Marker from '@editorjs/marker';
 import Underline from '@editorjs/underline';
@@ -311,7 +312,7 @@ const CustomEditor = () => {
                             },
                             mermaid: MermaidTool,
                             table: {
-                                class: Table,
+                                class: Table as unknown as ToolConstructable,
                                 inlineToolbar: true,
                                 config: {
                                     rows: 2,
