@@ -57,11 +57,15 @@
 .dark .ce-popover,
 .dark .ce-conversion-toolbar,
 .dark .ce-inline-toolbar,
-.dark .tc-popover {
+.dark .tc-popover,
+.dark .ce-popover__container {
   background-color: var(--primary);
   border-color: var(--border);
   box-shadow: 0 3px 15px -3px var(--border);
+  color: white;
+  fill: white;
 }
+
 .dark .ce-header{
   color: white;
 }
