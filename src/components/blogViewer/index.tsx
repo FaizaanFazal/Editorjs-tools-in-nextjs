@@ -53,6 +53,8 @@ interface BlockData {
   right?: string;
   embed?: string;
   html?: string;
+  borders:boolean;
+  tableHeader:boolean;
 }
 
 interface Block {
@@ -215,7 +217,12 @@ const BlogViewer: React.FC<BlogViewerProps> = ({ content }) => {
 
       case "table":
         return (
-          <Table key={id} content={data?.content!} classes={tailwindClasses} />
+          <Table key={id}
+           content={data?.content!}
+          classes={tailwindClasses}
+          borders={data.borders}
+          tableHeader={data.tableHeader}
+             />
         );
 
       case "AnyButton":

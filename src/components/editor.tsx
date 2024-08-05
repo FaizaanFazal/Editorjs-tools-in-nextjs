@@ -432,6 +432,7 @@ const CustomEditor = () => {
                     background: #0000;
                     color: inherit;
                     }
+                    
 
                     .ce-inline-tool,
                     .ce-conversion-toolbar__label,
@@ -484,7 +485,8 @@ const CustomEditor = () => {
                     .dark .ce-conversion-toolbar__label,
                     .dark .ce-toolbox__button,
                     .dark .cdx-settings-button,
-                    .dark .ce-toolbar__plus {
+                    .dark .ce-toolbar__plus ,
+                    .ce-popover__custom-content{
                     color: #616161;
                     }
 
@@ -500,7 +502,8 @@ const CustomEditor = () => {
                     .dark .ce-inline-toolbar__dropdown:hover,
                     .dark .ce-inline-tool:hover,
                     .dark .ce-popover__item:hover,
-                    .dark .ce-toolbar__settings-btn:hover {
+                    .dark .ce-toolbar__settings-btn:hover ,
+                    .ce-popover__custom-content:hover{
                     background-color: #4d4d4d;
                     color: #fff;
                     }
@@ -512,7 +515,12 @@ const CustomEditor = () => {
                     .dark .cdx-notify__cross::after,
                     .dark .cdx-notify__cross::before {
                     background: #1a1a1a;
-                    }`}
+                    }
+                    .dark .ce-popover__custom-content{
+                    background-color:white!}
+                    
+                    
+                    `}
             </style>
             <div className='py-4 px-12 min-h-screen h-full w-[100%]'>
                 <div className='flex row justify-end'>

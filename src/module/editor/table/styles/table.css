@@ -6,9 +6,37 @@
   border-collapse: collapse;
   table-layout: fixed;
 }
+.cdx-settings-button{
+  fill:black !important;
+  }
+  .cdx-settings-button:where(.dark, .dark *){
+  fill:white !important;
+  }
+tbody{
+  background-color: white;
+}
+tbody:where(.dark, .dark *){
+ background-color: rgb(31 41 55);
+}
+.tc-Header tr:first-of-type{
+  background-color: rgb(243 244 246);
+}
+
+.tc-Header tr:first-of-type:where(.dark, .dark *){
+  background-color: rgb(55 65 81)
+}
+
+.tc-all-border, .tc-all-border th, .tc-all-border td {
+  border: 1px solid rgb(0, 0, 0);
+  border-collapse: collapse;
+}
+.tc-all-border:where(.dark, .dark *), .tc-all-border th, .tc-all-border td:where(.dark, .dark *) {
+  border: 1px solid rgb(225, 225, 225);
+  border-collapse: collapse;
+}
 
 .tc-table__wrap {
-  border: 1px solid #DBDBE2;
+  border: 1px dotted #DBDBE2;
   border-radius: 3px;
   position: relative;
   height: 100%;
