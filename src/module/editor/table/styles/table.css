@@ -6,12 +6,12 @@
   border-collapse: collapse;
   table-layout: fixed;
 }
-.cdx-settings-button{
+/* .cdx-settings-button{
   fill:black !important;
   }
   .cdx-settings-button:where(.dark, .dark *){
   fill:white !important;
-  }
+  } */
 tbody{
   background-color: white;
 }
