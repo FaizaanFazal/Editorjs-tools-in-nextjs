@@ -156,6 +156,18 @@ export class Table {
   }
   }
 
+  textALign(actionName:string): void {
+  console.log(actionName)
+  const table = this._table.classList.contains('tc-table');
+  const possibleClasses = ['tc-Left', 'tc-Right', 'tc-Center', 'tc-Justify'];
+  const alignmentClass= "tc-"+actionName;
+  if (table) {
+    possibleClasses.forEach(className => this._table.classList.remove(className));
+  } 
+  this._table.classList.add(alignmentClass);
+  }
+
+
   /**
    * Inserts a row into the table relative to the current cell.
    * @param {number} direction - Direction of insertion. 0 is insertion before, 1 is insertion after.

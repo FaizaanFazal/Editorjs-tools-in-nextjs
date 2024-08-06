@@ -55,6 +55,7 @@ interface BlockData {
   html?: string;
   borders:boolean;
   tableHeader:boolean;
+  textAlignment:string;
 }
 
 interface Block {
@@ -222,6 +223,7 @@ const BlogViewer: React.FC<BlogViewerProps> = ({ content }) => {
           classes={tailwindClasses}
           borders={data.borders}
           tableHeader={data.tableHeader}
+          textAlignment={data.textAlignment}
              />
         );
 

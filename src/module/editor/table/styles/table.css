@@ -18,6 +18,10 @@ tbody{
 tbody:where(.dark, .dark *){
  background-color: rgb(31 41 55);
 }
+.tc-Left  {text-align: left;}
+.tc-Center{text-align: center;}
+.tc-Right  {text-align: right;}
+.tc-Justify  {text-align: justify;}
 .tc-Header tr:first-of-type{
   background-color: rgb(243 244 246);
 }

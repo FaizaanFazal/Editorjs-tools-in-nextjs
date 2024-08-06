@@ -35,6 +35,7 @@ interface TableConstructor {
     deleteColumn: () => void;
     toggleHeader: () => void;
     toggleBorders: () => void;
+    textALign: (actionName: string) => void;
     selectedCell: any;
     focusCellOnSelectedCell: () => void;
   };
@@ -120,6 +121,26 @@ export class Table {
         icon: `<svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 512 512"><path d="M56,472H456a16,16,0,0,0,16-16V56a16,16,0,0,0-16-16H56A16,16,0,0,0,40,56V456A16,16,0,0,0,56,472ZM272,72H440V240H272Zm0,200H440V440H272ZM72,72H240V240H72Zm0,200H240V440H72Z" class="ci-primary"/></svg>`,
         label: this.api.i18n.t("All Borders"),
       },
+      {
+        actionName: "Left",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" id="Layer" enable-background="new 0 0 64 64" width="18px" height="18px" viewBox="0 0 64 64" width="20"><path d="m54 8h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m54 52h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m10 23h28c1.104 0 2-.896 2-2s-.896-2-2-2h-28c-1.104 0-2 .896-2 2s.896 2 2 2z"/><path d="m54 30h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m10 45h28c1.104 0 2-.896 2-2s-.896-2-2-2h-28c-1.104 0-2 .896-2 2s.896 2 2 2z"/></svg>`,
+        label: this.api.i18n.t("Left"),
+      },
+      {
+        actionName: "Center",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" id="Layer" enable-background="new 0 0 64 64" width="18px" height="18px" viewBox="0 0 64 64" width="20"><path d="m54 8h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m54 52h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m46 23c1.104 0 2-.896 2-2s-.896-2-2-2h-28c-1.104 0-2 .896-2 2s.896 2 2 2zm-24 10h28c1.104 0 2-.896 2-2s-.896-2-2-2h-28c-1.104 0-2 .896-2 2s.896 2 2 2z"/><path d="m54 30h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m46 45c1.104 0 2-.896 2-2s-.896-2-2-2h-28c-1.104 0-2 .896-2 2s.896 2 2 2zm-24 10h28c1.104 0 2-.896 2-2s-.896-2-2-2h-28c-1.104 0-2 .896-2 2s.896 2 2 2z"/></svg>`,
+        label: this.api.i18n.t("Center"),
+      },
+      {
+        actionName: "Right",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" id="Layer" enable-background="new 0 0 64 64" width="18px" height="18px" viewBox="0 0 64 64" width="20"><path d="m54 8h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m54 52h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m38 23h6c1.104 0 2-.896 2-2s-.896-2-2-2h-6c-1.104 0-2 .896-2 2s.896 2 2 2zm0 10h12c1.104 0 2-.896 2-2s-.896-2-2-2h-12c-1.104 0-2 .896-2 2s.896 2 2 2zm16-10h6c1.104 0 2-.896 2-2s-.896-2-2-2h-6c-1.104 0-2 .896-2 2s.896 2 2 2zm0 10h12c1.104 0 2-.896 2-2s-.896-2-2-2h-12c-1.104 0-2 .896-2 2s.896 2 2 2z"/></svg>`,
+        label: this.api.i18n.t("Right"),
+      },
+      {
+        actionName: "Justify",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" id="Layer" enable-background="new 0 0 64 64" width="18px" height="18px" viewBox="0 0 64 64" width="20"><path d="m54 8h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m54 52h-44c-1.104 0-2 .896-2 2s.896 2 2 2h44c1.104 0 2-.896 2-2s-.896-2-2-2z"/><path d="m10 23h44c1.104 0 2-.896 2-2s-.896-2-2-2h-44c-1.104 0-2 .896-2 2s.896 2 2 2zm0 10h44c1.104 0 2-.896 2-2s-.896-2-2-2h-44c-1.104 0-2 .896-2 2s.896 2 2 2zm0 10h44c1.104 0 2-.896 2-2s-.896-2-2-2h-44c-1.104 0-2 .896-2 2s.896 2 2 2zm0 10h44c1.104 0 2-.896 2-2s-.896-2-2-2h-44c-1.104 0-2 .896-2 2s.896 2 2 2z"/></svg>`,
+        label: this.api.i18n.t("Justify"),
+      },
     ];
   }
 
@@ -148,6 +169,13 @@ export class Table {
         break;
       case "AllBorders":
         this._tableConstructor.table.toggleBorders();
+        break;
+      case "Left":
+      case "Center":
+      case "Right":
+      case "Justify":
+        this.data.textAlignment=actionName;
+        this._tableConstructor.table.textALign(actionName);
         break;
     }
   }
@@ -295,11 +323,12 @@ export class Table {
         data.push(inputs.map((input) => input.innerHTML));
       }
     }
-    console.log("header, boder",tableHeader,borders)
+    console.log("header, boder", tableHeader, borders)
     return {
       content: data,
       borders: borders,
-      tableHeader: tableHeader
+      tableHeader: tableHeader,
+      textAlignment: this.data.textAlignment
     };
   }
 
@@ -329,7 +358,8 @@ export class Table {
         cols: 0
       },
       borders: false,
-      tableHeader: false
+      tableHeader: false,
+      textAlignment: 'Left',
     };
     if (tag === 'TABLE') {
       const tableBodyNodes = Array.from(element.childNodes) as HTMLElement[];

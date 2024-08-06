@@ -14,6 +14,7 @@ export interface TableData {
   config?:TableConfig;
   borders: boolean ;
   tableHeader:boolean;
+  textAlignment:string;
 }
 
 export interface TableConfig {
