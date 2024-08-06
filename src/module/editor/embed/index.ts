@@ -171,9 +171,7 @@ export default class Embed {
   private _toggleAlignmentClass(tune: 'center' | 'left' | 'right') {
     this.data.alignment = tune;
     const embedDiv = this.element;
-    console.log("idher hun",embedDiv)
     const captionDiv = embedDiv?.querySelector('.embed-tool__caption');
-    console.log("found cap",captionDiv)
     if (captionDiv) {
         if (this.currentAlignmentClass) {
             captionDiv.classList.remove(this.currentAlignmentClass);
@@ -181,7 +179,6 @@ export default class Embed {
         const newAlignmentClass = this._CSS.alignment[tune];
         captionDiv.classList.add(newAlignmentClass);
         this.currentAlignmentClass = newAlignmentClass;
-        console.log("current",this.currentAlignmentClass)
     }
 }
 

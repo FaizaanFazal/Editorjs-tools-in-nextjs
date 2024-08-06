@@ -14,8 +14,7 @@ interface EmbedProps {
 export const Embed: React.FC<EmbedProps> = ({ service, source, embed, width, height, caption, classes,capAlignment }) => {
   const renderEmbed = () => {
     let classNames =' mx-auto ';
-    console.log(width,height,"width height")
-    
+   
     if (service === 'youtube') {
       return (
         <>
