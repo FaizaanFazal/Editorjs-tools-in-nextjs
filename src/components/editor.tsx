@@ -7,7 +7,8 @@ import Delimiter from '@editorjs/delimiter';
 import Alert from 'editorjs-alert';
 import Checklist from '@editorjs/checklist';
 import LinkTool from '@editorjs/link';
-import Embed from '@editorjs/embed';
+// import Embed from '@editorjs/embed';
+import Embed from '@/module/editor/embed';
 import MermaidTool from 'editorjs-mermaid';
 // import Table from 'editorjs-table';
 import {Table} from '@/module/editor/table/plugin';
@@ -153,7 +154,7 @@ const CustomEditor = () => {
                                     }
                                 },
                                 embed: {
-                                    class: Embed,
+                                    class: Embed as unknown as ToolConstructable,
                                     inlineToolbar: true,
                                     tunes: ['textVariant']
                                 },
@@ -307,7 +308,7 @@ const CustomEditor = () => {
 
                             },
                             embed: {
-                                class: Embed,
+                                class: Embed as unknown as ToolConstructable,
                                 inlineToolbar: true
                             },
                             mermaid: MermaidTool,

@@ -287,6 +287,7 @@ const BlogViewer: React.FC<BlogViewerProps> = ({ content }) => {
             height={data.height!}
             caption={data.caption}
             classes={tailwindClasses}
+            capAlignment={`${getAlignmentClasses(data.alignment!)}`}
           />
         );
 

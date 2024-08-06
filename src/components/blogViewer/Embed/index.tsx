@@ -8,9 +8,10 @@ interface EmbedProps {
   height?: string;
   caption?: string;
   classes?: string;
+  capAlignment: string;
 }
 
-export const Embed: React.FC<EmbedProps> = ({ service, source, embed, width, height, caption, classes }) => {
+export const Embed: React.FC<EmbedProps> = ({ service, source, embed, width, height, caption, classes,capAlignment }) => {
   const renderEmbed = () => {
     let classNames =' mx-auto ';
     console.log(width,height,"width height")
@@ -26,7 +27,7 @@ export const Embed: React.FC<EmbedProps> = ({ service, source, embed, width, hei
               height={height} 
               allowFullScreen>
             </iframe> 
-          {caption && <div className="caption text-center">{caption}</div>}
+          {caption && <div className={`caption ${capAlignment} lg:w-[70%] mx-auto`}>{caption}</div>}
           </div>
         </>
       );
